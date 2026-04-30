@@ -24,9 +24,10 @@ Execute the implementation blueprint in `agent_posix_implementation_blueprint.md
 - TASK 017: Added `FilesystemBackend` with atomic replace-on-write persistence.
 - TASK 018: Added the async SQLite backend with WAL initialization and JSON payload storage.
 - TASK 019: Added the freeze protocol to checkpoint ASOs and persist them atomically.
+- TASK 020: Added the resume protocol with checksum verification and RESUMING transition.
 
 ## In Progress
-- TASK 020: Create resume protocol.
+- TASK 021: Implement signal handling.
 
 ## Open Issues
 - `python3 -m venv` and activation emit `pyenv: cannot rehash ... shims isn't writable`, but environment creation and package installation still succeed.
@@ -36,6 +37,6 @@ Execute the implementation blueprint in `agent_posix_implementation_blueprint.md
 - A task is marked done only after implementation and basic validation complete.
 
 ## Next Steps
-1. Add the resume protocol.
-2. Add signal handling and raw adapter checkpointing.
+1. Add signal handling for process interrupts.
+2. Add raw and LangGraph checkpointing adapters.
 3. Add tests as models and storage backends take shape.

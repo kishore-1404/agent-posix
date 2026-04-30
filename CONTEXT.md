@@ -32,20 +32,26 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - TASK 025: Added the root package public API in `src/agentposix/__init__.py`.
 - TASK 026: Added and passed the end-to-end idempotency integration test.
 - Created `agent_posix_production_readiness_blueprint.md` to define the post-prototype hardening plan for OSS/production adoption.
+- TASK P001: Normalized `agentposix/pyproject.toml` for distribution by adding authors, keywords, classifiers, project URLs, optional dependency purpose comments, and replacing the unused `typer` runtime dependency with the actual `click` dependency used by the CLI.
+- Added `agentposix/README.md` so builds run from the package project root have a valid local readme target.
+- Validated packaging metadata with `./.venv/bin/python -m build --no-isolation` and `./.venv/bin/python -m twine check dist/*`.
 
 ## In Progress
 - None.
 
 ## Open Issues
 - `python3 -m venv` and activation emit `pyenv: cannot rehash ... shims isn't writable`, but environment creation and package installation still succeed.
+- `python -m build` without `--no-isolation` still cannot run in this environment unless network access is available, because the isolated build bootstrap tries to resolve build requirements from package indexes.
 
 ## Decisions
 - `CONTEXT.md` is the canonical handoff file for ongoing work.
 - A task is marked done only after implementation and basic validation complete.
 - Internal package imports use `agentposix...`, not `src.agentposix...`, so editable installs and console scripts work correctly.
 - The CLI uses a Click command object because the pinned Typer version crashes on help output in this environment.
+- Runtime dependencies must match actual imports; the package now declares `click` directly and keeps LangGraph and SQLite behind optional extras.
+- The package build root is `agentposix/`, so package metadata must reference files that exist inside that directory rather than only at the repository root.
 
 ## Next Steps
-1. Start with packaging and compatibility tasks `P001`-`P003`.
-2. Expand model and lifecycle hardening coverage.
-3. Add CI, docs, and release workflows after the core hardening passes.
+1. Execute `P002` by adding explicit setuptools `src`-layout package discovery and verifying imports from a clean wheel install.
+2. Execute `P003` by defining and later enforcing the supported Python matrix in CI.
+3. Continue with model and lifecycle hardening after packaging compatibility is stable.

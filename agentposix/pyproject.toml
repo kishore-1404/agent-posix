@@ -8,16 +8,47 @@ version = "0.1.0"
 description = "Portable Agent State Serialization Format and Lifecycle Protocol"
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "MIT"}
+license = "MIT"
+authors = [
+    {name = "Agent POSIX Contributors"},
+]
+keywords = [
+    "agent",
+    "checkpointing",
+    "checkpoint",
+    "serialization",
+    "langgraph",
+    "workflow",
+    "resumability",
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Operating System :: POSIX",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: System :: Distributed Computing",
+]
 dependencies = [
     "pydantic>=2.7.4",
-    "typer==0.15.2",
+    "click>=8.1,<9",
     "rich>=13.7.0"
 ]
 
+[project.urls]
+Homepage = "https://github.com/kishore-1404/agent-posix"
+Repository = "https://github.com/kishore-1404/agent-posix.git"
+Issues = "https://github.com/kishore-1404/agent-posix/issues"
+
 [project.optional-dependencies]
+# Framework adapter integrations used by optional packages under `agentposix.adapters`.
 adapters = ["langgraph>=0.2.62", "langchain-core>=0.3.29"]
+# Durable storage backend support beyond the filesystem implementation.
 storage = ["aiosqlite==0.20.0"]
+# Local contributor tooling for tests, docs, packaging, and release validation.
 dev = [
     "pytest>=8.0.0",
     "pytest-asyncio>=0.23.5",

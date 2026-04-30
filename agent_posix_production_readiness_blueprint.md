@@ -48,7 +48,7 @@ The project is considered production-ready for open-source adoption only when al
 
 ### WORKSTREAM A — Packaging and Compatibility
 
-#### TASK P001 — Normalize package metadata
+#### TASK P001 — Normalize package metadata [DONE 2026-05-01]
 - **Goal:** Make `pyproject.toml` suitable for distribution.
 - **Requirements:**
   - Add `authors`, `keywords`, `classifiers`, `urls`, and explicit optional dependency group purpose.
@@ -57,6 +57,11 @@ The project is considered production-ready for open-source adoption only when al
 - **Done when:**
   - `python -m build` succeeds.
   - Wheel metadata is valid.
+- **Completion notes:**
+  - Added distribution metadata, project URLs, and optional dependency group purpose comments.
+  - Replaced unused `typer` runtime dependency with `click` because the CLI implementation is Click-based and prior context recorded Typer help-output instability in this environment.
+  - Added a package-local `README.md` so builds from the `agentposix/` project root resolve the declared readme correctly.
+  - Verified with `./.venv/bin/python -m build --no-isolation` and `./.venv/bin/python -m twine check dist/*`. `--no-isolation` was required because the sandboxed environment blocks package index access for isolated build env bootstrap.
 
 #### TASK P002 — Add setuptools package discovery config
 - **Goal:** Ensure wheel builds include the `src/agentposix` package reliably.

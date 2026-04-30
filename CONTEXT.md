@@ -17,9 +17,10 @@ Execute the implementation blueprint in `agent_posix_implementation_blueprint.md
 - TASK 010: Added message, tool-call, conversation, and tool-definition schemas in `models/message.py`.
 - TASK 011: Added `ExecutionPointer` with topological and temporal state tracking.
 - TASK 012: Added side-effect entry validation and registry models in `models/side_effect.py`.
+- TASK 013: Added environment snapshot and sub-agent reference models in `models/environment.py`.
 
 ## In Progress
-- TASK 013: Create environment snapshot model.
+- TASK 014: Create the root `AgentStateObject` model.
 
 ## Open Issues
 - `python3 -m venv` and activation emit `pyenv: cannot rehash ... shims isn't writable`, but environment creation and package installation still succeed.
@@ -29,6 +30,6 @@ Execute the implementation blueprint in `agent_posix_implementation_blueprint.md
 - A task is marked done only after implementation and basic validation complete.
 
 ## Next Steps
-1. Add the environment snapshot schema.
-2. Assemble the root ASO model and checksum logic.
+1. Assemble the root ASO model.
+2. Add deterministic checksum logic.
 3. Add tests as models and storage backends take shape.

@@ -63,7 +63,7 @@ The project is considered production-ready for open-source adoption only when al
   - Added a package-local `README.md` so builds from the `agentposix/` project root resolve the declared readme correctly.
   - Verified with `./.venv/bin/python -m build --no-isolation` and `./.venv/bin/python -m twine check dist/*`. `--no-isolation` was required because the sandboxed environment blocks package index access for isolated build env bootstrap.
 
-#### TASK P002 — Add setuptools package discovery config
+#### TASK P002 — Add setuptools package discovery config [DONE 2026-05-01]
 - **Goal:** Ensure wheel builds include the `src/agentposix` package reliably.
 - **Requirements:**
   - Add explicit package discovery for the `src` layout.
@@ -74,6 +74,11 @@ The project is considered production-ready for open-source adoption only when al
   pip install dist/*.whl
   python -c "import agentposix; print(agentposix.__all__)"
   ```
+- **Completion notes:**
+  - Added explicit setuptools `src`-layout discovery via `[tool.setuptools]` and `[tool.setuptools.packages.find]`.
+  - Made `agentposix.ASOLangGraphSaver` a lazy optional export so `import agentposix` does not require LangGraph extras at import time.
+  - Added unit tests for the lazy optional export behavior.
+  - Verified with `./.venv/bin/python -m build --no-isolation`, `./.venv/bin/python -m pip install --force-reinstall --no-deps dist/agentposix-0.1.0-py3-none-any.whl`, and `./.venv/bin/python -c "import agentposix; print(agentposix.__all__)"`.
 
 #### TASK P003 — Define supported Python matrix
 - **Goal:** Set a real compatibility target.

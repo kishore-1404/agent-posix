@@ -35,6 +35,9 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - TASK P001: Normalized `agentposix/pyproject.toml` for distribution by adding authors, keywords, classifiers, project URLs, optional dependency purpose comments, and replacing the unused `typer` runtime dependency with the actual `click` dependency used by the CLI.
 - Added `agentposix/README.md` so builds run from the package project root have a valid local readme target.
 - Validated packaging metadata with `./.venv/bin/python -m build --no-isolation` and `./.venv/bin/python -m twine check dist/*`.
+- TASK P002: Added explicit setuptools `src`-layout package discovery and validated that the built wheel installs and imports correctly.
+- Made `agentposix.ASOLangGraphSaver` a lazy top-level export so the base package import does not eagerly require optional LangGraph dependencies.
+- Added unit coverage for lazy optional exports in `tests/unit/test_package_exports.py`.
 
 ## In Progress
 - None.
@@ -42,6 +45,7 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 ## Open Issues
 - `python3 -m venv` and activation emit `pyenv: cannot rehash ... shims isn't writable`, but environment creation and package installation still succeed.
 - `python -m build` without `--no-isolation` still cannot run in this environment unless network access is available, because the isolated build bootstrap tries to resolve build requirements from package indexes.
+- Pydantic `Field(..., example=...)` deprecation warnings still appear during tests and should be addressed in `P010`.
 
 ## Decisions
 - `CONTEXT.md` is the canonical handoff file for ongoing work.
@@ -50,8 +54,9 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - The CLI uses a Click command object because the pinned Typer version crashes on help output in this environment.
 - Runtime dependencies must match actual imports; the package now declares `click` directly and keeps LangGraph and SQLite behind optional extras.
 - The package build root is `agentposix/`, so package metadata must reference files that exist inside that directory rather than only at the repository root.
+- Optional integrations exposed from `agentposix` should load lazily so a default install remains importable without extras.
 
 ## Next Steps
-1. Execute `P002` by adding explicit setuptools `src`-layout package discovery and verifying imports from a clean wheel install.
-2. Execute `P003` by defining and later enforcing the supported Python matrix in CI.
+1. Execute `P003` by defining and later enforcing the supported Python matrix in CI.
+2. Execute `P010` to remove Pydantic deprecations now surfacing in test output.
 3. Continue with model and lifecycle hardening after packaging compatibility is stable.

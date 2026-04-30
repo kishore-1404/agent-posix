@@ -1,0 +1,34 @@
+from enum import Enum
+
+
+class ASOStatus(str, Enum):
+    INITIALIZING = "INITIALIZING"
+    RUNNING = "RUNNING"
+    CHECKPOINTING = "CHECKPOINTING"
+    CHECKPOINTED = "CHECKPOINTED"
+    RESUMING = "RESUMING"
+    TERMINATED = "TERMINATED"
+    FAILED = "FAILED"
+
+
+class FreezeTriggerReasonEnum(str, Enum):
+    EXPLICIT_CALL = "EXPLICIT_CALL"
+    SIGTERM = "SIGTERM"
+    SIGINT = "SIGINT"
+    RATE_LIMIT = "RATE_LIMIT"
+    ERROR = "ERROR"
+    TIMEOUT = "TIMEOUT"
+    STEP_LIMIT = "STEP_LIMIT"
+
+
+class ParadigmEnum(str, Enum):
+    REACT_LOOP = "REACT_LOOP"
+    DAG_GRAPH = "DAG_GRAPH"
+    PLAN_EXECUTE = "PLAN_EXECUTE"
+    CUSTOM = "CUSTOM"
+
+
+class SafeBoundaryTypeEnum(str, Enum):
+    AFTER_LLM_RESPONSE = "AFTER_LLM_RESPONSE"
+    AFTER_TOOL_RESULT = "AFTER_TOOL_RESULT"
+    AFTER_PLAN_STEP = "AFTER_PLAN_STEP"

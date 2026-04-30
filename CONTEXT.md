@@ -21,9 +21,10 @@ Execute the implementation blueprint in `agent_posix_implementation_blueprint.md
 - TASK 014: Added the root `AgentStateObject` schema in `models/aso.py`.
 - TASK 015: Added deterministic checksum computation and verification in `core/checksum.py`.
 - TASK 016: Added the `StorageBackend` abstract base class in `storage/base.py`.
+- TASK 017: Added `FilesystemBackend` with atomic replace-on-write persistence.
 
 ## In Progress
-- TASK 017: Create `FilesystemBackend`.
+- TASK 018: Create `SqliteBackend`.
 
 ## Open Issues
 - `python3 -m venv` and activation emit `pyenv: cannot rehash ... shims isn't writable`, but environment creation and package installation still succeed.
@@ -33,6 +34,6 @@ Execute the implementation blueprint in `agent_posix_implementation_blueprint.md
 - A task is marked done only after implementation and basic validation complete.
 
 ## Next Steps
-1. Add filesystem and SQLite backend implementations.
+1. Add the async SQLite backend.
 2. Add lifecycle freeze/resume protocols.
 3. Add tests as models and storage backends take shape.

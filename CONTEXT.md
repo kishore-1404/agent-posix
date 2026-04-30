@@ -38,6 +38,8 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - TASK P002: Added explicit setuptools `src`-layout package discovery and validated that the built wheel installs and imports correctly.
 - Made `agentposix.ASOLangGraphSaver` a lazy top-level export so the base package import does not eagerly require optional LangGraph dependencies.
 - Added unit coverage for lazy optional exports in `tests/unit/test_package_exports.py`.
+- TASK P003: Defined the supported interpreter matrix as Python `3.10`, `3.11`, and `3.12`, added a GitHub Actions compatibility workflow, and validated the package locally on `3.10.9`, `3.11.11`, and `3.12.9`.
+- Installed Python `3.11.11` and `3.12.9` via `pyenv` to make local matrix validation possible in this environment.
 
 ## In Progress
 - None.
@@ -55,8 +57,9 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - Runtime dependencies must match actual imports; the package now declares `click` directly and keeps LangGraph and SQLite behind optional extras.
 - The package build root is `agentposix/`, so package metadata must reference files that exist inside that directory rather than only at the repository root.
 - Optional integrations exposed from `agentposix` should load lazily so a default install remains importable without extras.
+- The supported Python compatibility target is now `3.10`, `3.11`, and `3.12`, and the repository contains a matching GitHub Actions matrix workflow.
 
 ## Next Steps
-1. Execute `P003` by defining and later enforcing the supported Python matrix in CI.
-2. Execute `P010` to remove Pydantic deprecations now surfacing in test output.
-3. Continue with model and lifecycle hardening after packaging compatibility is stable.
+1. Execute `P010` to remove Pydantic deprecations now surfacing in test output.
+2. Execute `P011` to add model/schema validation tests after the deprecations are removed.
+3. Continue with lifecycle hardening after model-level stability improves.

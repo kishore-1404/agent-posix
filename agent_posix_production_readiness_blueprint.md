@@ -80,12 +80,17 @@ The project is considered production-ready for open-source adoption only when al
   - Added unit tests for the lazy optional export behavior.
   - Verified with `./.venv/bin/python -m build --no-isolation`, `./.venv/bin/python -m pip install --force-reinstall --no-deps dist/agentposix-0.1.0-py3-none-any.whl`, and `./.venv/bin/python -c "import agentposix; print(agentposix.__all__)"`.
 
-#### TASK P003 — Define supported Python matrix
+#### TASK P003 — Define supported Python matrix [DONE 2026-05-01]
 - **Goal:** Set a real compatibility target.
 - **Requirements:**
   - Test at least Python `3.10`, `3.11`, and `3.12`.
   - Downgrade or pin dependencies only if matrix failures require it.
 - **Done when:** CI passes on every supported version.
+- **Completion notes:**
+  - Added a GitHub Actions compatibility workflow covering Python `3.10`, `3.11`, and `3.12`.
+  - Installed Python `3.11.11` and `3.12.9` locally via `pyenv` to supplement the existing `3.10.9` interpreter.
+  - Validated the matrix locally in clean virtualenvs for each version with editable install of `.[adapters,storage,dev]`, `pytest`, `python -m build --no-isolation`, and `python -c "import agentposix; print(agentposix.__all__)"`.
+  - No dependency downgrades or pins were required based on the local matrix results.
 
 ### WORKSTREAM B — Model and Schema Hardening
 

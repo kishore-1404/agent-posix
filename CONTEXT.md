@@ -48,6 +48,7 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - TASK P022: Hardened `resume()` with explicit missing-session handling and test coverage for checksum rejection and invalid resumptions from already-resuming or terminal states.
 - TASK P023: Implemented host drift capture and validation. Freeze now refreshes tracked environment state, resume raises `HostDriftError` for fatal drift, and advisory drift is attached to `extensions["resume_advisories"]`.
 - TASK P030: Completed the async SQLite backend with `list_sessions`, `delete_aso`, `exists`, and parity tests for create/update/delete/missing-session behavior.
+- TASK P031: Added filesystem durability safeguards including parent-dir recreation, file flush plus fsync, directory fsync after replace, and per-session in-process locking.
 
 ## In Progress
 - None.
@@ -70,8 +71,9 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - Lifecycle status transitions are now enforced through `agentposix.core.lifecycle` instead of ad hoc status assignment.
 - Storage backends should treat the passed-in ASO as immutable input during writes; persistence-only checksum fixes happen on a local copy.
 - Host drift policy is now explicit: `cwd`, Python version, platform, and tracked file checksums are fatal; tracked env var and git hash drift are advisory.
+- Filesystem persistence guarantees are now explicitly single-process and per-session; cross-process coordination is still not provided.
 
 ## Next Steps
-1. Execute `P031` to add filesystem durability safeguards.
-2. Execute `P032` to add corruption and recovery tests for persistence failures.
+1. Execute `P032` to add corruption and recovery tests for persistence failures.
+2. Execute `P033` to document backend selection tradeoffs.
 3. Continue through adapter and CLI hardening after storage reliability improves.

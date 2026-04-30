@@ -191,13 +191,18 @@ The project is considered production-ready for open-source adoption only when al
   - Added async unit coverage for create, update, delete, ordered listing, existence checks, and missing-session behavior.
   - Validated under Python `3.12.9` with the full suite. In this Codex sandbox, direct `aiosqlite.connect()` calls hang, so SQLite validation required escalated execution outside the sandbox.
 
-#### TASK P031 — Add filesystem durability safeguards
+#### TASK P031 — Add filesystem durability safeguards [DONE 2026-05-01]
 - **Goal:** Improve write reliability.
 - **Requirements:**
   - Add parent directory creation checks.
   - Add flush and fsync before replace.
   - Decide on session-level locking strategy.
   - Document single-process vs multi-process guarantees.
+- **Completion notes:**
+  - Filesystem writes now recreate the base directory on demand, flush file contents, call `os.fsync()` before replace, and fsync the parent directory after replace when supported.
+  - Added per-session in-process locks to serialize single-process writers by session id.
+  - Documented guarantees and limits directly on `FilesystemBackend`.
+  - Added unit coverage for parent-directory recreation, checksum persistence behavior, existence/list/delete behavior, and validated the full suite under Python `3.12.9`.
 
 #### TASK P032 — Add corruption and recovery tests
 - **Goal:** Verify failure behavior.

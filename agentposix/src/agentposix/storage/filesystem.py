@@ -1,6 +1,7 @@
 import json
 import os
 from pathlib import Path
+import threading
 from typing import List
 
 from agentposix.core.checksum import compute_checksum
@@ -9,12 +10,45 @@ from agentposix.storage.base import StorageBackend
 
 
 class FilesystemBackend(StorageBackend):
+    """
+    Filesystem-backed ASO persistence with atomic replace-on-write semantics.
+
+    Guarantees:
+    - Single-process writers are serialized per session id through an in-process lock.
+    - Successful writes flush file contents to disk before the atomic replace step.
+    - The target directory is fsynced after replace when the platform supports it.
+
+    Limits:
+    - Cross-process coordination is not provided.
+    - Durability still depends on the host filesystem and OS semantics.
+    """
+
     def __init__(self, base_dir: str = ".agentposix"):
         self.base_dir = Path(base_dir)
         self.base_dir.mkdir(parents=True, exist_ok=True)
+        self._session_locks: dict[str, threading.Lock] = {}
+        self._locks_guard = threading.Lock()
 
     def _get_path(self, session_id: str) -> Path:
         return self.base_dir / f"{session_id}.aso.json"
+
+    def _get_session_lock(self, session_id: str) -> threading.Lock:
+        with self._locks_guard:
+            lock = self._session_locks.get(session_id)
+            if lock is None:
+                lock = threading.Lock()
+                self._session_locks[session_id] = lock
+            return lock
+
+    def _fsync_directory(self, directory: Path) -> None:
+        try:
+            dir_fd = os.open(directory, os.O_RDONLY)
+        except OSError:
+            return
+        try:
+            os.fsync(dir_fd)
+        finally:
+            os.close(dir_fd)
 
     def _prepare_for_write(self, aso: AgentStateObject) -> AgentStateObject:
         persisted_aso = aso.model_copy(deep=True)
@@ -26,14 +60,19 @@ class FilesystemBackend(StorageBackend):
         persisted_aso = self._prepare_for_write(aso)
         target_path = self._get_path(aso.identity.session_id)
         tmp_path = target_path.with_suffix(".tmp")
-        try:
-            with open(tmp_path, "w", encoding="utf-8") as f:
-                json.dump(persisted_aso.model_dump(mode="json"), f, indent=2)
-            os.replace(tmp_path, target_path)
-        except Exception:
-            if tmp_path.exists():
-                tmp_path.unlink()
-            raise
+        self.base_dir.mkdir(parents=True, exist_ok=True)
+        with self._get_session_lock(aso.identity.session_id):
+            try:
+                with open(tmp_path, "w", encoding="utf-8") as f:
+                    json.dump(persisted_aso.model_dump(mode="json"), f, indent=2)
+                    f.flush()
+                    os.fsync(f.fileno())
+                os.replace(tmp_path, target_path)
+                self._fsync_directory(self.base_dir)
+            except Exception:
+                if tmp_path.exists():
+                    tmp_path.unlink()
+                raise
 
     def read_aso(self, session_id: str) -> AgentStateObject:
         path = self._get_path(session_id)

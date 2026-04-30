@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 
 from agentposix.core.checksum import compute_checksum
+from agentposix.core.lifecycle import transition_state
 from agentposix.enums import ASOStatus
 from agentposix.models.aso import AgentStateObject
 from agentposix.storage.base import StorageBackend
@@ -11,7 +12,7 @@ def freeze(aso: AgentStateObject, storage: StorageBackend, summary: str = "") ->
     Executes the Agent POSIX Freeze Protocol.
     Sets the status to CHECKPOINTED, computes checksum, and writes to storage.
     """
-    aso.status = ASOStatus.CHECKPOINTED
+    transition_state(aso, ASOStatus.CHECKPOINTED)
     aso.frozen_at = datetime.now(timezone.utc).isoformat()
     if summary:
         aso.human_summary = summary

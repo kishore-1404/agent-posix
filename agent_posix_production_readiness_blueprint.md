@@ -130,12 +130,16 @@ The project is considered production-ready for open-source adoption only when al
 
 ### WORKSTREAM C — Lifecycle Safety
 
-#### TASK P020 — Introduce explicit state transition validation
+#### TASK P020 — Introduce explicit state transition validation [DONE 2026-05-01]
 - **Goal:** Prevent invalid lifecycle jumps.
 - **Requirements:**
   - Define allowed transitions for `ASOStatus`.
   - Raise `StateTransitionError` for illegal transitions.
   - Cover transitions in unit tests.
+- **Completion notes:**
+  - Added a dedicated lifecycle module with the allowed `ASOStatus` transition map plus validation and mutation helpers.
+  - Wired `freeze()` and `resume()` through transition validation so invalid lifecycle jumps fail consistently.
+  - Added unit coverage for allowed transitions, rejected transitions, and state mutation behavior.
 
 #### TASK P021 — Harden `freeze()`
 - **Goal:** Make checkpoint writes safer.

@@ -43,6 +43,7 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - TASK P010: Removed Pydantic `Field(..., example=...)` deprecations and configured pytest to fail on `PydanticDeprecatedSince20` warnings.
 - TASK P011: Added unit schema-validation coverage for all core model modules, including defaults, enum failures, idempotency-key validation, and missing required ASO blocks.
 - TASK P012: Generated the public ASO JSON Schema artifact under `agentposix/spec/` and added a stability test that compares it against live schema generation.
+- TASK P020: Added explicit lifecycle transition validation with a centralized allowed-transition map and `StateTransitionError` enforcement.
 
 ## In Progress
 - None.
@@ -61,8 +62,9 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - Optional integrations exposed from `agentposix` should load lazily so a default install remains importable without extras.
 - The supported Python compatibility target is now `3.10`, `3.11`, and `3.12`, and the repository contains a matching GitHub Actions matrix workflow.
 - Pydantic deprecation warnings are now treated as test failures so schema regressions surface immediately.
+- Lifecycle status transitions are now enforced through `agentposix.core.lifecycle` instead of ad hoc status assignment.
 
 ## Next Steps
-1. Execute `P020` to introduce explicit lifecycle state transition validation.
-2. Execute `P021` and `P022` to harden `freeze()` and `resume()` around lifecycle correctness.
+1. Execute `P021` to harden `freeze()` around checkpoint write safety and atomicity guarantees.
+2. Execute `P022` to make `resume()` behavior explicit for missing, terminal, and already-resuming sessions.
 3. Continue through storage reliability after lifecycle constraints are enforced.

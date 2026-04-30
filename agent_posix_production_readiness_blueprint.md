@@ -104,7 +104,7 @@ The project is considered production-ready for open-source adoption only when al
   - Added a pytest warning gate for `pydantic.warnings.PydanticDeprecatedSince20` in `pyproject.toml`.
   - Verified with `./.venv/bin/pytest -q` and direct schema inspection via `model_json_schema()`.
 
-#### TASK P011 — Add schema validation tests
+#### TASK P011 — Add schema validation tests [DONE 2026-05-01]
 - **Goal:** Guarantee ASO serialization stability.
 - **Requirements:**
   - Add unit tests for every core model.
@@ -113,6 +113,10 @@ The project is considered production-ready for open-source adoption only when al
   ```bash
   pytest tests/unit/test_models -q
   ```
+- **Completion notes:**
+  - Added unit coverage for metadata, message, execution pointer, environment, side-effect, and root ASO models in `tests/unit/test_models/test_models.py`.
+  - Covered defaults, invalid enum values, bad idempotency keys, missing required nested blocks, and acceptance of a minimal valid ASO payload.
+  - Verified with `./.venv/bin/pytest tests/unit/test_models -q` and `./.venv/bin/pytest -q`.
 
 #### TASK P012 — Add ASO schema export
 - **Goal:** Make the format consumable by external users.

@@ -41,6 +41,7 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - TASK P003: Defined the supported interpreter matrix as Python `3.10`, `3.11`, and `3.12`, added a GitHub Actions compatibility workflow, and validated the package locally on `3.10.9`, `3.11.11`, and `3.12.9`.
 - Installed Python `3.11.11` and `3.12.9` via `pyenv` to make local matrix validation possible in this environment.
 - TASK P010: Removed Pydantic `Field(..., example=...)` deprecations and configured pytest to fail on `PydanticDeprecatedSince20` warnings.
+- TASK P011: Added unit schema-validation coverage for all core model modules, including defaults, enum failures, idempotency-key validation, and missing required ASO blocks.
 
 ## In Progress
 - None.
@@ -61,6 +62,6 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - Pydantic deprecation warnings are now treated as test failures so schema regressions surface immediately.
 
 ## Next Steps
-1. Execute `P011` to add model/schema validation tests for the core ASO model set.
-2. Execute `P012` to export and stabilize the public ASO JSON Schema artifact.
-3. Continue with lifecycle hardening after model-level stability improves.
+1. Execute `P012` to export and stabilize the public ASO JSON Schema artifact.
+2. Execute `P020` to introduce explicit lifecycle state transition validation.
+3. Continue through lifecycle hardening after the schema artifact is in place.

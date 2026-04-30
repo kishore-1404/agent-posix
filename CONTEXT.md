@@ -6,9 +6,10 @@ Execute the implementation blueprint in `agent_posix_implementation_blueprint.md
 ## Completed
 - TASK 001: Created the root project directory structure under `agentposix/`.
 - Added `.gitkeep` placeholders so empty scaffold directories are preserved in Git.
+- TASK 002: Added `agentposix/.gitignore` with Python, virtualenv, test, and artifact ignores.
 
 ## In Progress
-- TASK 002: Create `.gitignore`.
+- TASK 003: Create `pyproject.toml`.
 
 ## Open Issues
 - TASK 005 may require dependency installation and could be blocked by network or sandbox limits.
@@ -18,6 +19,6 @@ Execute the implementation blueprint in `agent_posix_implementation_blueprint.md
 - A task is marked done only after implementation and basic validation complete.
 
 ## Next Steps
-1. Finish TASK 002 by adding `.gitignore`.
-2. Add `pyproject.toml` and `.python-version` for TASK 003 and TASK 004.
+1. Add and validate `agentposix/pyproject.toml`.
+2. Add `.python-version` for Python version pinning.
 3. Attempt TASK 005 and record any blockers if installation cannot complete.

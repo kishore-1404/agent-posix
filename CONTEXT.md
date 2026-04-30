@@ -30,9 +30,10 @@ Execute the implementation blueprint in `agent_posix_implementation_blueprint.md
 - TASK 023: Added `ASOLangGraphSaver` to map LangGraph checkpoints into ASO storage.
 - TASK 024: Added a working CLI entrypoint with `inspect` and corrected package imports so the installed console script runs.
 - TASK 025: Added the root package public API in `src/agentposix/__init__.py`.
+- TASK 026: Added and passed the end-to-end idempotency integration test.
 
 ## In Progress
-- TASK 026: Create integration test.
+- None.
 
 ## Open Issues
 - `python3 -m venv` and activation emit `pyenv: cannot rehash ... shims isn't writable`, but environment creation and package installation still succeed.
@@ -44,6 +45,6 @@ Execute the implementation blueprint in `agent_posix_implementation_blueprint.md
 - The CLI uses a Click command object because the pinned Typer version crashes on help output in this environment.
 
 ## Next Steps
-1. Add the integration test.
-2. Run the end-to-end verification flow.
-3. Review any remaining compatibility gaps.
+1. Expand test coverage beyond the current integration path.
+2. Review dependency pin compatibility over Python versions.
+3. Build on top of the completed blueprint baseline.

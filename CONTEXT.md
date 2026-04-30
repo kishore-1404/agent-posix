@@ -22,9 +22,10 @@ Execute the implementation blueprint in `agent_posix_implementation_blueprint.md
 - TASK 015: Added deterministic checksum computation and verification in `core/checksum.py`.
 - TASK 016: Added the `StorageBackend` abstract base class in `storage/base.py`.
 - TASK 017: Added `FilesystemBackend` with atomic replace-on-write persistence.
+- TASK 018: Added the async SQLite backend with WAL initialization and JSON payload storage.
 
 ## In Progress
-- TASK 018: Create `SqliteBackend`.
+- TASK 019: Create freeze protocol.
 
 ## Open Issues
 - `python3 -m venv` and activation emit `pyenv: cannot rehash ... shims isn't writable`, but environment creation and package installation still succeed.
@@ -34,6 +35,6 @@ Execute the implementation blueprint in `agent_posix_implementation_blueprint.md
 - A task is marked done only after implementation and basic validation complete.
 
 ## Next Steps
-1. Add the async SQLite backend.
-2. Add lifecycle freeze/resume protocols.
+1. Add lifecycle freeze/resume protocols.
+2. Add signal handling and raw adapter checkpointing.
 3. Add tests as models and storage backends take shape.

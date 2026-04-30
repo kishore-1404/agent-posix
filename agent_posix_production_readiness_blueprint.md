@@ -166,12 +166,17 @@ The project is considered production-ready for open-source adoption only when al
   - Already-resuming and terminal sessions now fail consistently through lifecycle transition validation.
   - Added unit coverage for successful resume, missing sessions, checksum mismatch rejection, and non-resumable states.
 
-#### TASK P023 — Implement host drift detection
+#### TASK P023 — Implement host drift detection [DONE 2026-05-01]
 - **Goal:** Use `HostDriftError` for real validation.
 - **Requirements:**
   - Compute tracked file checksums.
   - Compare environment snapshot values on resume.
   - Document which drift conditions are fatal vs advisory.
+- **Completion notes:**
+  - Added host-drift capture and validation helpers in `core/host_drift.py`.
+  - `freeze()` now refreshes the stored environment snapshot using the current runtime, including tracked env vars, tracked file checksums, and git commit hash when available.
+  - `resume()` now rejects fatal drift with `HostDriftError` and stores advisory drift messages under `extensions["resume_advisories"]`.
+  - Fatal drift currently includes `cwd`, `python_version`, `platform`, and tracked file checksum mismatches; tracked env var and git hash changes are advisory.
 
 ### WORKSTREAM D — Storage Reliability
 

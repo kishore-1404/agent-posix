@@ -1,6 +1,7 @@
 import pytest
 
 from agentposix.core.checksum import compute_checksum
+from agentposix.core import host_drift
 from agentposix.core.resume import resume
 from agentposix.enums import ASOStatus, FreezeTriggerReasonEnum, ParadigmEnum
 from agentposix.exceptions import ChecksumMismatchError, StateTransitionError
@@ -22,7 +23,11 @@ def make_aso(status: ASOStatus = ASOStatus.CHECKPOINTED) -> AgentStateObject:
         conversation=ConversationHistory(),
         execution_pointer=ExecutionPointer(paradigm=ParadigmEnum.CUSTOM),
         side_effects=SideEffectRegistry(),
-        environment=EnvironmentSnapshot(cwd="/tmp", python_version="3.12.9", platform="linux"),
+        environment=EnvironmentSnapshot(
+            cwd=host_drift._current_cwd(),
+            python_version=host_drift._current_python_version(),
+            platform=host_drift._current_platform(),
+        ),
         metadata=FreezeMetadata(
             framework_name="raw",
             framework_version="1.0.0",

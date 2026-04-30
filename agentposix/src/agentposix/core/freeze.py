@@ -1,6 +1,7 @@
 from datetime import datetime, timezone
 
 from agentposix.core.checksum import compute_checksum
+from agentposix.core.host_drift import capture_environment_snapshot
 from agentposix.core.lifecycle import transition_state
 from agentposix.enums import ASOStatus
 from agentposix.models.aso import AgentStateObject
@@ -25,6 +26,7 @@ def freeze(aso: AgentStateObject, storage: StorageBackend, summary: str = "") ->
     - This function does not provide cross-process locking or distributed transactions.
     """
     persisted_aso = aso.model_copy(deep=True)
+    persisted_aso.environment = capture_environment_snapshot(persisted_aso.environment)
     transition_state(persisted_aso, ASOStatus.CHECKPOINTED)
     persisted_aso.frozen_at = datetime.now(timezone.utc).isoformat()
     if summary:
@@ -39,4 +41,5 @@ def freeze(aso: AgentStateObject, storage: StorageBackend, summary: str = "") ->
     aso.frozen_at = persisted_aso.frozen_at
     aso.human_summary = persisted_aso.human_summary
     aso.checksum = persisted_aso.checksum
+    aso.environment = persisted_aso.environment
     return aso

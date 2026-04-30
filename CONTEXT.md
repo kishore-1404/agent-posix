@@ -46,6 +46,7 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - TASK P020: Added explicit lifecycle transition validation with a centralized allowed-transition map and `StateTransitionError` enforcement.
 - TASK P021: Hardened `freeze()` so checkpoint payloads are prepared on a copy, checksum ordering is explicit, and failed storage writes do not mutate the live ASO into a false checkpointed state.
 - TASK P022: Hardened `resume()` with explicit missing-session handling and test coverage for checksum rejection and invalid resumptions from already-resuming or terminal states.
+- TASK P023: Implemented host drift capture and validation. Freeze now refreshes tracked environment state, resume raises `HostDriftError` for fatal drift, and advisory drift is attached to `extensions["resume_advisories"]`.
 
 ## In Progress
 - None.
@@ -66,8 +67,9 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - Pydantic deprecation warnings are now treated as test failures so schema regressions surface immediately.
 - Lifecycle status transitions are now enforced through `agentposix.core.lifecycle` instead of ad hoc status assignment.
 - Storage backends should treat the passed-in ASO as immutable input during writes; persistence-only checksum fixes happen on a local copy.
+- Host drift policy is now explicit: `cwd`, Python version, platform, and tracked file checksums are fatal; tracked env var and git hash drift are advisory.
 
 ## Next Steps
-1. Execute `P023` to implement host drift detection on resume.
-2. Execute `P030` to complete the SQLite backend against the storage contract.
-3. Continue through storage reliability after resume-time environment checks are in place.
+1. Execute `P030` to complete the SQLite backend against the storage contract.
+2. Execute `P031` and `P032` to harden filesystem persistence and corruption handling.
+3. Continue through adapter and CLI hardening after storage reliability improves.

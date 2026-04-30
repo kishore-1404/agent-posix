@@ -1,7 +1,7 @@
 # Project Context
 
 ## Current Objective
-Execute the implementation blueprint in `agent_posix_implementation_blueprint.md` sequentially and keep the repository resumable between agents.
+Turn the completed prototype into an adoptable open-source release using a dedicated production-readiness blueprint and keep the repository resumable between agents.
 
 ## Completed
 - TASK 001: Created the root project directory structure under `agentposix/`.
@@ -31,6 +31,7 @@ Execute the implementation blueprint in `agent_posix_implementation_blueprint.md
 - TASK 024: Added a working CLI entrypoint with `inspect` and corrected package imports so the installed console script runs.
 - TASK 025: Added the root package public API in `src/agentposix/__init__.py`.
 - TASK 026: Added and passed the end-to-end idempotency integration test.
+- Created `agent_posix_production_readiness_blueprint.md` to define the post-prototype hardening plan for OSS/production adoption.
 
 ## In Progress
 - None.
@@ -45,6 +46,6 @@ Execute the implementation blueprint in `agent_posix_implementation_blueprint.md
 - The CLI uses a Click command object because the pinned Typer version crashes on help output in this environment.
 
 ## Next Steps
-1. Expand test coverage beyond the current integration path.
-2. Review dependency pin compatibility over Python versions.
-3. Build on top of the completed blueprint baseline.
+1. Start with packaging and compatibility tasks `P001`-`P003`.
+2. Expand model and lifecycle hardening coverage.
+3. Add CI, docs, and release workflows after the core hardening passes.

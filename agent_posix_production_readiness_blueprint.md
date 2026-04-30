@@ -154,12 +154,17 @@ The project is considered production-ready for open-source adoption only when al
   - Filesystem writes now clean up the temporary file if serialization or replace fails.
   - Added unit coverage for successful freeze writes and rollback behavior on storage failure.
 
-#### TASK P022 — Harden `resume()`
+#### TASK P022 — Harden `resume()` [DONE 2026-05-01]
 - **Goal:** Make restore behavior explicit.
 - **Requirements:**
   - Validate checksum failures.
   - Handle missing sessions cleanly.
   - Define behavior for already-resumed or terminal states.
+- **Completion notes:**
+  - `resume()` now checks storage existence up front and raises a stable `FileNotFoundError` message for missing sessions.
+  - Checksum failures remain enforced through `verify_checksum()`.
+  - Already-resuming and terminal sessions now fail consistently through lifecycle transition validation.
+  - Added unit coverage for successful resume, missing sessions, checksum mismatch rejection, and non-resumable states.
 
 #### TASK P023 — Implement host drift detection
 - **Goal:** Use `HostDriftError` for real validation.

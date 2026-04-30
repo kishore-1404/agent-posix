@@ -45,6 +45,7 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - TASK P012: Generated the public ASO JSON Schema artifact under `agentposix/spec/` and added a stability test that compares it against live schema generation.
 - TASK P020: Added explicit lifecycle transition validation with a centralized allowed-transition map and `StateTransitionError` enforcement.
 - TASK P021: Hardened `freeze()` so checkpoint payloads are prepared on a copy, checksum ordering is explicit, and failed storage writes do not mutate the live ASO into a false checkpointed state.
+- TASK P022: Hardened `resume()` with explicit missing-session handling and test coverage for checksum rejection and invalid resumptions from already-resuming or terminal states.
 
 ## In Progress
 - None.
@@ -67,6 +68,6 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - Storage backends should treat the passed-in ASO as immutable input during writes; persistence-only checksum fixes happen on a local copy.
 
 ## Next Steps
-1. Execute `P022` to make `resume()` behavior explicit for missing, terminal, and already-resuming sessions.
-2. Execute `P023` to implement host drift detection on resume.
-3. Continue through storage reliability after lifecycle constraints are enforced.
+1. Execute `P023` to implement host drift detection on resume.
+2. Execute `P030` to complete the SQLite backend against the storage contract.
+3. Continue through storage reliability after resume-time environment checks are in place.

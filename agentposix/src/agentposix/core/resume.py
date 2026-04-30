@@ -9,9 +9,16 @@ from agentposix.storage.base import StorageBackend
 
 def resume(session_id: str, storage: StorageBackend) -> AgentStateObject:
     """
-    Executes the Agent POSIX Resume Protocol.
-    Reads ASO, verifies checksum, and transitions to RESUMING.
+    Execute the Agent POSIX Resume Protocol.
+
+    Behavior:
+    - Missing sessions raise `FileNotFoundError` with a stable session-specific message.
+    - Checksum mismatches raise `ChecksumMismatchError`.
+    - Sessions not in a resumable lifecycle state raise `StateTransitionError`.
     """
+    if not storage.exists(session_id):
+        raise FileNotFoundError(f"No ASO found for session {session_id}")
+
     aso = storage.read_aso(session_id)
 
     # Integrity validation

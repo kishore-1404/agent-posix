@@ -47,6 +47,7 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - TASK P021: Hardened `freeze()` so checkpoint payloads are prepared on a copy, checksum ordering is explicit, and failed storage writes do not mutate the live ASO into a false checkpointed state.
 - TASK P022: Hardened `resume()` with explicit missing-session handling and test coverage for checksum rejection and invalid resumptions from already-resuming or terminal states.
 - TASK P023: Implemented host drift capture and validation. Freeze now refreshes tracked environment state, resume raises `HostDriftError` for fatal drift, and advisory drift is attached to `extensions["resume_advisories"]`.
+- TASK P030: Completed the async SQLite backend with `list_sessions`, `delete_aso`, `exists`, and parity tests for create/update/delete/missing-session behavior.
 
 ## In Progress
 - None.
@@ -54,6 +55,7 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 ## Open Issues
 - `python3 -m venv` and activation emit `pyenv: cannot rehash ... shims isn't writable`, but environment creation and package installation still succeed.
 - `python -m build` without `--no-isolation` still cannot run in this environment unless network access is available, because the isolated build bootstrap tries to resolve build requirements from package indexes.
+- In the Codex sandbox, `aiosqlite.connect()` hangs even in a minimal script. SQLite tests pass outside the sandbox under supported Python `3.12.9`, so this currently appears to be an execution-environment limitation rather than a repository bug.
 
 ## Decisions
 - `CONTEXT.md` is the canonical handoff file for ongoing work.
@@ -70,6 +72,6 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - Host drift policy is now explicit: `cwd`, Python version, platform, and tracked file checksums are fatal; tracked env var and git hash drift are advisory.
 
 ## Next Steps
-1. Execute `P030` to complete the SQLite backend against the storage contract.
-2. Execute `P031` and `P032` to harden filesystem persistence and corruption handling.
+1. Execute `P031` to add filesystem durability safeguards.
+2. Execute `P032` to add corruption and recovery tests for persistence failures.
 3. Continue through adapter and CLI hardening after storage reliability improves.

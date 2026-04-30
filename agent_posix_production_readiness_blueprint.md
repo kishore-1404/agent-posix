@@ -180,11 +180,16 @@ The project is considered production-ready for open-source adoption only when al
 
 ### WORKSTREAM D — Storage Reliability
 
-#### TASK P030 — Complete `AsyncSqliteBackend`
+#### TASK P030 — Complete `AsyncSqliteBackend` [DONE 2026-05-01]
 - **Goal:** Bring SQLite to feature parity with the storage contract.
 - **Requirements:**
   - Add `list_sessions`, `delete_aso`, and `exists`.
   - Add tests for create, update, delete, and missing session behavior.
+- **Completion notes:**
+  - Added `list_sessions`, `delete_aso`, and `exists` to `AsyncSqliteBackend`.
+  - Normalized missing-session reads to `FileNotFoundError` for parity with the filesystem backend.
+  - Added async unit coverage for create, update, delete, ordered listing, existence checks, and missing-session behavior.
+  - Validated under Python `3.12.9` with the full suite. In this Codex sandbox, direct `aiosqlite.connect()` calls hang, so SQLite validation required escalated execution outside the sandbox.
 
 #### TASK P031 — Add filesystem durability safeguards
 - **Goal:** Improve write reliability.

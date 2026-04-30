@@ -22,13 +22,15 @@ class AsyncSqliteBackend:
 
     async def write_aso(self, aso: AgentStateObject) -> None:
         await self._init_db()
-        aso.checksum = compute_checksum(aso)
-        payload = json.dumps(aso.model_dump(mode="json"))
+        persisted_aso = aso.model_copy(deep=True)
+        if not persisted_aso.checksum:
+            persisted_aso.checksum = compute_checksum(persisted_aso)
+        payload = json.dumps(persisted_aso.model_dump(mode="json"))
         async with aiosqlite.connect(self.db_path) as db:
             await db.execute(
                 "INSERT INTO checkpoints (session_id, payload) VALUES (?, ?) "
                 "ON CONFLICT(session_id) DO UPDATE SET payload=excluded.payload",
-                (aso.identity.session_id, payload),
+                (persisted_aso.identity.session_id, payload),
             )
             await db.commit()
 

@@ -44,6 +44,7 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - TASK P011: Added unit schema-validation coverage for all core model modules, including defaults, enum failures, idempotency-key validation, and missing required ASO blocks.
 - TASK P012: Generated the public ASO JSON Schema artifact under `agentposix/spec/` and added a stability test that compares it against live schema generation.
 - TASK P020: Added explicit lifecycle transition validation with a centralized allowed-transition map and `StateTransitionError` enforcement.
+- TASK P021: Hardened `freeze()` so checkpoint payloads are prepared on a copy, checksum ordering is explicit, and failed storage writes do not mutate the live ASO into a false checkpointed state.
 
 ## In Progress
 - None.
@@ -63,8 +64,9 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - The supported Python compatibility target is now `3.10`, `3.11`, and `3.12`, and the repository contains a matching GitHub Actions matrix workflow.
 - Pydantic deprecation warnings are now treated as test failures so schema regressions surface immediately.
 - Lifecycle status transitions are now enforced through `agentposix.core.lifecycle` instead of ad hoc status assignment.
+- Storage backends should treat the passed-in ASO as immutable input during writes; persistence-only checksum fixes happen on a local copy.
 
 ## Next Steps
-1. Execute `P021` to harden `freeze()` around checkpoint write safety and atomicity guarantees.
-2. Execute `P022` to make `resume()` behavior explicit for missing, terminal, and already-resuming sessions.
+1. Execute `P022` to make `resume()` behavior explicit for missing, terminal, and already-resuming sessions.
+2. Execute `P023` to implement host drift detection on resume.
 3. Continue through storage reliability after lifecycle constraints are enforced.

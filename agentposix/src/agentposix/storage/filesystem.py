@@ -16,13 +16,24 @@ class FilesystemBackend(StorageBackend):
     def _get_path(self, session_id: str) -> Path:
         return self.base_dir / f"{session_id}.aso.json"
 
+    def _prepare_for_write(self, aso: AgentStateObject) -> AgentStateObject:
+        persisted_aso = aso.model_copy(deep=True)
+        if not persisted_aso.checksum:
+            persisted_aso.checksum = compute_checksum(persisted_aso)
+        return persisted_aso
+
     def write_aso(self, aso: AgentStateObject) -> None:
+        persisted_aso = self._prepare_for_write(aso)
         target_path = self._get_path(aso.identity.session_id)
         tmp_path = target_path.with_suffix(".tmp")
-        aso.checksum = compute_checksum(aso)
-        with open(tmp_path, "w", encoding="utf-8") as f:
-            json.dump(aso.model_dump(mode="json"), f, indent=2)
-        os.replace(tmp_path, target_path)
+        try:
+            with open(tmp_path, "w", encoding="utf-8") as f:
+                json.dump(persisted_aso.model_dump(mode="json"), f, indent=2)
+            os.replace(tmp_path, target_path)
+        except Exception:
+            if tmp_path.exists():
+                tmp_path.unlink()
+            raise
 
     def read_aso(self, session_id: str) -> AgentStateObject:
         path = self._get_path(session_id)

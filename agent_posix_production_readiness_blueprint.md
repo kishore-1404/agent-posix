@@ -141,13 +141,18 @@ The project is considered production-ready for open-source adoption only when al
   - Wired `freeze()` and `resume()` through transition validation so invalid lifecycle jumps fail consistently.
   - Added unit coverage for allowed transitions, rejected transitions, and state mutation behavior.
 
-#### TASK P021 — Harden `freeze()`
+#### TASK P021 — Harden `freeze()` [DONE 2026-05-01]
 - **Goal:** Make checkpoint writes safer.
 - **Requirements:**
   - Add transition checks.
   - Clarify checksum-write ordering.
   - Add defensive behavior around incomplete storage writes.
   - Document atomicity guarantees and limits.
+- **Completion notes:**
+  - `freeze()` now prepares the persisted checkpoint on a deep copy, computes checksum only after final persisted fields are set, and updates the caller's live ASO only after storage succeeds.
+  - Filesystem and SQLite backends no longer mutate the caller's ASO while persisting; if a checksum is missing they fill it on a write-local copy.
+  - Filesystem writes now clean up the temporary file if serialization or replace fails.
+  - Added unit coverage for successful freeze writes and rollback behavior on storage failure.
 
 #### TASK P022 — Harden `resume()`
 - **Goal:** Make restore behavior explicit.

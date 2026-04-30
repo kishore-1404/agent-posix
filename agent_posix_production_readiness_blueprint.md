@@ -118,11 +118,15 @@ The project is considered production-ready for open-source adoption only when al
   - Covered defaults, invalid enum values, bad idempotency keys, missing required nested blocks, and acceptance of a minimal valid ASO payload.
   - Verified with `./.venv/bin/pytest tests/unit/test_models -q` and `./.venv/bin/pytest -q`.
 
-#### TASK P012 — Add ASO schema export
+#### TASK P012 — Add ASO schema export [DONE 2026-05-01]
 - **Goal:** Make the format consumable by external users.
 - **Requirements:**
   - Generate and store a JSON Schema artifact under `spec/`.
   - Add a test ensuring schema generation remains stable.
+- **Completion notes:**
+  - Generated and stored the ASO JSON Schema artifact at `agentposix/spec/agent_state_object.schema.json`.
+  - Added a stability test that compares the checked-in schema artifact against `AgentStateObject.model_json_schema()`.
+  - Verified with `./.venv/bin/pytest tests/unit/test_models -q` and `./.venv/bin/pytest -q`.
 
 ### WORKSTREAM C — Lifecycle Safety
 

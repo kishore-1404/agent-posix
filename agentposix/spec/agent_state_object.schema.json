@@ -1,0 +1,663 @@
+{
+  "$defs": {
+    "ASOStatus": {
+      "enum": [
+        "INITIALIZING",
+        "RUNNING",
+        "CHECKPOINTING",
+        "CHECKPOINTED",
+        "RESUMING",
+        "TERMINATED",
+        "FAILED"
+      ],
+      "title": "ASOStatus",
+      "type": "string"
+    },
+    "ConversationHistory": {
+      "properties": {
+        "message_count": {
+          "default": 0,
+          "title": "Message Count",
+          "type": "integer"
+        },
+        "messages": {
+          "items": {
+            "$ref": "#/$defs/Message"
+          },
+          "title": "Messages",
+          "type": "array"
+        },
+        "original_message_count": {
+          "default": 0,
+          "title": "Original Message Count",
+          "type": "integer"
+        },
+        "truncation_applied": {
+          "default": false,
+          "title": "Truncation Applied",
+          "type": "boolean"
+        }
+      },
+      "title": "ConversationHistory",
+      "type": "object"
+    },
+    "EnvironmentSnapshot": {
+      "properties": {
+        "cwd": {
+          "title": "Cwd",
+          "type": "string"
+        },
+        "env_vars": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "Env Vars",
+          "type": "object"
+        },
+        "file_checksums": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "title": "File Checksums",
+          "type": "object"
+        },
+        "git_commit_hash": {
+          "default": "",
+          "title": "Git Commit Hash",
+          "type": "string"
+        },
+        "platform": {
+          "title": "Platform",
+          "type": "string"
+        },
+        "python_version": {
+          "title": "Python Version",
+          "type": "string"
+        }
+      },
+      "required": [
+        "cwd",
+        "python_version",
+        "platform"
+      ],
+      "title": "EnvironmentSnapshot",
+      "type": "object"
+    },
+    "ExecutionPointer": {
+      "properties": {
+        "completed_node_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Completed Node Ids",
+          "type": "array"
+        },
+        "current_node_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Current Node Id"
+        },
+        "current_step_index": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Current Step Index"
+        },
+        "last_safe_boundary_timestamp": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Last Safe Boundary Timestamp"
+        },
+        "last_safe_boundary_type": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/SafeBoundaryTypeEnum"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "loop_iteration_count": {
+          "default": 0,
+          "title": "Loop Iteration Count",
+          "type": "integer"
+        },
+        "paradigm": {
+          "$ref": "#/$defs/ParadigmEnum",
+          "default": "CUSTOM"
+        },
+        "pending_node_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Pending Node Ids",
+          "type": "array"
+        },
+        "reasoning_scratchpad": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Reasoning Scratchpad"
+        }
+      },
+      "title": "ExecutionPointer",
+      "type": "object"
+    },
+    "FreezeMetadata": {
+      "properties": {
+        "agentposix_version": {
+          "default": "0.1.0",
+          "title": "Agentposix Version",
+          "type": "string"
+        },
+        "error_info": {
+          "anyOf": [
+            {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Error Info"
+        },
+        "framework_name": {
+          "example": "langgraph",
+          "title": "Framework Name",
+          "type": "string"
+        },
+        "framework_version": {
+          "example": "0.2.62",
+          "title": "Framework Version",
+          "type": "string"
+        },
+        "trigger_reason": {
+          "$ref": "#/$defs/FreezeTriggerReasonEnum"
+        }
+      },
+      "required": [
+        "framework_name",
+        "framework_version",
+        "trigger_reason"
+      ],
+      "title": "FreezeMetadata",
+      "type": "object"
+    },
+    "FreezeTriggerReasonEnum": {
+      "enum": [
+        "EXPLICIT_CALL",
+        "SIGTERM",
+        "SIGINT",
+        "RATE_LIMIT",
+        "ERROR",
+        "TIMEOUT",
+        "STEP_LIMIT"
+      ],
+      "title": "FreezeTriggerReasonEnum",
+      "type": "string"
+    },
+    "IdentityBlock": {
+      "properties": {
+        "aso_id": {
+          "title": "Aso Id",
+          "type": "string"
+        },
+        "parent_session_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Parent Session Id"
+        },
+        "session_id": {
+          "title": "Session Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "aso_id",
+        "session_id"
+      ],
+      "title": "IdentityBlock",
+      "type": "object"
+    },
+    "Message": {
+      "properties": {
+        "content": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Content"
+        },
+        "name": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Name"
+        },
+        "role": {
+          "description": "Role: system, user, assistant, tool",
+          "title": "Role",
+          "type": "string"
+        },
+        "tool_call_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool Call Id"
+        },
+        "tool_calls": {
+          "anyOf": [
+            {
+              "items": {
+                "$ref": "#/$defs/ToolCall"
+              },
+              "type": "array"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Tool Calls"
+        }
+      },
+      "required": [
+        "role"
+      ],
+      "title": "Message",
+      "type": "object"
+    },
+    "ModelConfig": {
+      "properties": {
+        "api_base_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Api Base Url"
+        },
+        "max_tokens": {
+          "anyOf": [
+            {
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Max Tokens"
+        },
+        "model_id": {
+          "example": "claude-3-5-sonnet-20241022",
+          "title": "Model Id",
+          "type": "string"
+        },
+        "provider": {
+          "example": "anthropic",
+          "title": "Provider",
+          "type": "string"
+        },
+        "system_prompt": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "System Prompt"
+        },
+        "temperature": {
+          "default": 0.0,
+          "title": "Temperature",
+          "type": "number"
+        },
+        "top_p": {
+          "anyOf": [
+            {
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Top P"
+        }
+      },
+      "required": [
+        "provider",
+        "model_id"
+      ],
+      "title": "ModelConfig",
+      "type": "object"
+    },
+    "ParadigmEnum": {
+      "enum": [
+        "REACT_LOOP",
+        "DAG_GRAPH",
+        "PLAN_EXECUTE",
+        "CUSTOM"
+      ],
+      "title": "ParadigmEnum",
+      "type": "string"
+    },
+    "SafeBoundaryTypeEnum": {
+      "enum": [
+        "AFTER_LLM_RESPONSE",
+        "AFTER_TOOL_RESULT",
+        "AFTER_PLAN_STEP"
+      ],
+      "title": "SafeBoundaryTypeEnum",
+      "type": "string"
+    },
+    "SideEffectEntry": {
+      "properties": {
+        "executed_at": {
+          "title": "Executed At",
+          "type": "string"
+        },
+        "idempotency_key": {
+          "title": "Idempotency Key",
+          "type": "string"
+        },
+        "is_reversible": {
+          "default": false,
+          "title": "Is Reversible",
+          "type": "boolean"
+        },
+        "replay_safe": {
+          "default": false,
+          "title": "Replay Safe",
+          "type": "boolean"
+        },
+        "result_summary": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Result Summary"
+        },
+        "tool_args": {
+          "additionalProperties": true,
+          "title": "Tool Args",
+          "type": "object"
+        },
+        "tool_name": {
+          "title": "Tool Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "idempotency_key",
+        "tool_name",
+        "tool_args",
+        "executed_at"
+      ],
+      "title": "SideEffectEntry",
+      "type": "object"
+    },
+    "SideEffectRegistry": {
+      "properties": {
+        "entries": {
+          "items": {
+            "$ref": "#/$defs/SideEffectEntry"
+          },
+          "title": "Entries",
+          "type": "array"
+        }
+      },
+      "title": "SideEffectRegistry",
+      "type": "object"
+    },
+    "SubAgentReference": {
+      "properties": {
+        "aso_file_path": {
+          "title": "Aso File Path",
+          "type": "string"
+        },
+        "session_id": {
+          "title": "Session Id",
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/$defs/ASOStatus"
+        }
+      },
+      "required": [
+        "session_id",
+        "status",
+        "aso_file_path"
+      ],
+      "title": "SubAgentReference",
+      "type": "object"
+    },
+    "ToolCall": {
+      "properties": {
+        "function": {
+          "additionalProperties": true,
+          "title": "Function",
+          "type": "object"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "type": {
+          "default": "function",
+          "title": "Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "function"
+      ],
+      "title": "ToolCall",
+      "type": "object"
+    },
+    "ToolDefinition": {
+      "properties": {
+        "description": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Description"
+        },
+        "idempotent": {
+          "default": false,
+          "title": "Idempotent",
+          "type": "boolean"
+        },
+        "input_schema": {
+          "additionalProperties": true,
+          "title": "Input Schema",
+          "type": "object"
+        },
+        "name": {
+          "title": "Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ],
+      "title": "ToolDefinition",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "checksum": {
+      "default": "",
+      "title": "Checksum",
+      "type": "string"
+    },
+    "conversation": {
+      "$ref": "#/$defs/ConversationHistory"
+    },
+    "created_at": {
+      "title": "Created At",
+      "type": "string"
+    },
+    "environment": {
+      "$ref": "#/$defs/EnvironmentSnapshot"
+    },
+    "execution_pointer": {
+      "$ref": "#/$defs/ExecutionPointer"
+    },
+    "extensions": {
+      "additionalProperties": true,
+      "title": "Extensions",
+      "type": "object"
+    },
+    "frozen_at": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Frozen At"
+    },
+    "human_summary": {
+      "default": "",
+      "title": "Human Summary",
+      "type": "string"
+    },
+    "identity": {
+      "$ref": "#/$defs/IdentityBlock"
+    },
+    "metadata": {
+      "$ref": "#/$defs/FreezeMetadata"
+    },
+    "model_config_block": {
+      "$ref": "#/$defs/ModelConfig"
+    },
+    "resumed_at": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Resumed At"
+    },
+    "side_effects": {
+      "$ref": "#/$defs/SideEffectRegistry"
+    },
+    "spec_version": {
+      "default": "1.0.0",
+      "title": "Spec Version",
+      "type": "string"
+    },
+    "status": {
+      "$ref": "#/$defs/ASOStatus",
+      "default": "INITIALIZING"
+    },
+    "sub_agents": {
+      "items": {
+        "$ref": "#/$defs/SubAgentReference"
+      },
+      "title": "Sub Agents",
+      "type": "array"
+    },
+    "tool_registry": {
+      "items": {
+        "$ref": "#/$defs/ToolDefinition"
+      },
+      "title": "Tool Registry",
+      "type": "array"
+    }
+  },
+  "required": [
+    "identity",
+    "created_at",
+    "model_config_block",
+    "conversation",
+    "execution_pointer",
+    "side_effects",
+    "environment",
+    "metadata"
+  ],
+  "title": "AgentStateObject",
+  "type": "object"
+}

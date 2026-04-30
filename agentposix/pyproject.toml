@@ -73,3 +73,6 @@ agentposix = "agentposix.cli.main:app"
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+filterwarnings = [
+    "error::pydantic.warnings.PydanticDeprecatedSince20",
+]

@@ -94,11 +94,15 @@ The project is considered production-ready for open-source adoption only when al
 
 ### WORKSTREAM B — Model and Schema Hardening
 
-#### TASK P010 — Remove Pydantic deprecations
+#### TASK P010 — Remove Pydantic deprecations [DONE 2026-05-01]
 - **Goal:** Eliminate warnings and future breakage.
 - **Requirements:**
   - Replace deprecated `Field(..., example=...)` usage with supported schema metadata.
   - Run tests with warnings treated as failures for project code.
+- **Completion notes:**
+  - Replaced deprecated `Field(..., example=...)` usage in `models/metadata.py` with `json_schema_extra={"example": ...}`.
+  - Added a pytest warning gate for `pydantic.warnings.PydanticDeprecatedSince20` in `pyproject.toml`.
+  - Verified with `./.venv/bin/pytest -q` and direct schema inspection via `model_json_schema()`.
 
 #### TASK P011 — Add schema validation tests
 - **Goal:** Guarantee ASO serialization stability.

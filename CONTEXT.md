@@ -40,6 +40,7 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - Added unit coverage for lazy optional exports in `tests/unit/test_package_exports.py`.
 - TASK P003: Defined the supported interpreter matrix as Python `3.10`, `3.11`, and `3.12`, added a GitHub Actions compatibility workflow, and validated the package locally on `3.10.9`, `3.11.11`, and `3.12.9`.
 - Installed Python `3.11.11` and `3.12.9` via `pyenv` to make local matrix validation possible in this environment.
+- TASK P010: Removed Pydantic `Field(..., example=...)` deprecations and configured pytest to fail on `PydanticDeprecatedSince20` warnings.
 
 ## In Progress
 - None.
@@ -47,7 +48,6 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 ## Open Issues
 - `python3 -m venv` and activation emit `pyenv: cannot rehash ... shims isn't writable`, but environment creation and package installation still succeed.
 - `python -m build` without `--no-isolation` still cannot run in this environment unless network access is available, because the isolated build bootstrap tries to resolve build requirements from package indexes.
-- Pydantic `Field(..., example=...)` deprecation warnings still appear during tests and should be addressed in `P010`.
 
 ## Decisions
 - `CONTEXT.md` is the canonical handoff file for ongoing work.
@@ -58,8 +58,9 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - The package build root is `agentposix/`, so package metadata must reference files that exist inside that directory rather than only at the repository root.
 - Optional integrations exposed from `agentposix` should load lazily so a default install remains importable without extras.
 - The supported Python compatibility target is now `3.10`, `3.11`, and `3.12`, and the repository contains a matching GitHub Actions matrix workflow.
+- Pydantic deprecation warnings are now treated as test failures so schema regressions surface immediately.
 
 ## Next Steps
-1. Execute `P010` to remove Pydantic deprecations now surfacing in test output.
-2. Execute `P011` to add model/schema validation tests after the deprecations are removed.
+1. Execute `P011` to add model/schema validation tests for the core ASO model set.
+2. Execute `P012` to export and stabilize the public ASO JSON Schema artifact.
 3. Continue with lifecycle hardening after model-level stability improves.

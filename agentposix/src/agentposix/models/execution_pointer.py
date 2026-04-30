@@ -2,7 +2,7 @@ from typing import List, Optional
 
 from pydantic import BaseModel, Field
 
-from src.agentposix.enums import ParadigmEnum, SafeBoundaryTypeEnum
+from agentposix.enums import ParadigmEnum, SafeBoundaryTypeEnum
 
 
 class ExecutionPointer(BaseModel):

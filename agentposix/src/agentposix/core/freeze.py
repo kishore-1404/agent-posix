@@ -1,9 +1,9 @@
 from datetime import datetime, timezone
 
-from src.agentposix.core.checksum import compute_checksum
-from src.agentposix.enums import ASOStatus
-from src.agentposix.models.aso import AgentStateObject
-from src.agentposix.storage.base import StorageBackend
+from agentposix.core.checksum import compute_checksum
+from agentposix.enums import ASOStatus
+from agentposix.models.aso import AgentStateObject
+from agentposix.storage.base import StorageBackend
 
 
 def freeze(aso: AgentStateObject, storage: StorageBackend, summary: str = "") -> AgentStateObject:

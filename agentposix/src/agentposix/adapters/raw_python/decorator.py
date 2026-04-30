@@ -4,10 +4,10 @@ from datetime import datetime, timezone
 from functools import wraps
 from typing import Any, Callable
 
-from src.agentposix.core.freeze import freeze
-from src.agentposix.models.aso import AgentStateObject
-from src.agentposix.models.side_effect import SideEffectEntry
-from src.agentposix.storage.base import StorageBackend
+from agentposix.core.freeze import freeze
+from agentposix.models.aso import AgentStateObject
+from agentposix.models.side_effect import SideEffectEntry
+from agentposix.storage.base import StorageBackend
 
 
 def checkpoint_boundary(aso: AgentStateObject, storage: StorageBackend, tool_name: str):

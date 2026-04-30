@@ -2,7 +2,7 @@ from typing import Dict, List
 
 from pydantic import BaseModel, Field
 
-from src.agentposix.enums import ASOStatus
+from agentposix.enums import ASOStatus
 
 
 class EnvironmentSnapshot(BaseModel):

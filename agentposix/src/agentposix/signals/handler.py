@@ -2,9 +2,9 @@ import signal
 import sys
 from typing import Callable
 
-from src.agentposix.core.freeze import freeze
-from src.agentposix.models.aso import AgentStateObject
-from src.agentposix.storage.base import StorageBackend
+from agentposix.core.freeze import freeze
+from agentposix.models.aso import AgentStateObject
+from agentposix.storage.base import StorageBackend
 
 
 class FreezeSignalHandler:

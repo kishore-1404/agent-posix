@@ -3,9 +3,9 @@ import os
 from pathlib import Path
 from typing import List
 
-from src.agentposix.core.checksum import compute_checksum
-from src.agentposix.models.aso import AgentStateObject
-from src.agentposix.storage.base import StorageBackend
+from agentposix.core.checksum import compute_checksum
+from agentposix.models.aso import AgentStateObject
+from agentposix.storage.base import StorageBackend
 
 
 class FilesystemBackend(StorageBackend):

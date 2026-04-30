@@ -28,9 +28,10 @@ Execute the implementation blueprint in `agent_posix_implementation_blueprint.md
 - TASK 021: Added `FreezeSignalHandler` for `SIGINT` and `SIGTERM` checkpointing.
 - TASK 022: Added `checkpoint_boundary` for idempotent raw Python side-effect checkpoints.
 - TASK 023: Added `ASOLangGraphSaver` to map LangGraph checkpoints into ASO storage.
+- TASK 024: Added a working CLI entrypoint with `inspect` and corrected package imports so the installed console script runs.
 
 ## In Progress
-- TASK 024: Create CLI entrypoint.
+- TASK 025: Create root package public API.
 
 ## Open Issues
 - `python3 -m venv` and activation emit `pyenv: cannot rehash ... shims isn't writable`, but environment creation and package installation still succeed.
@@ -38,8 +39,10 @@ Execute the implementation blueprint in `agent_posix_implementation_blueprint.md
 ## Decisions
 - `CONTEXT.md` is the canonical handoff file for ongoing work.
 - A task is marked done only after implementation and basic validation complete.
+- Internal package imports use `agentposix...`, not `src.agentposix...`, so editable installs and console scripts work correctly.
+- The CLI uses a Click command object because the pinned Typer version crashes on help output in this environment.
 
 ## Next Steps
-1. Add the CLI and root package API.
+1. Add the root package API.
 2. Add the integration test.
 3. Run the end-to-end verification flow.

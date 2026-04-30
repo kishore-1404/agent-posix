@@ -2,12 +2,12 @@ from typing import Any, Dict, List, Optional
 
 from pydantic import BaseModel, Field
 
-from src.agentposix.enums import ASOStatus
-from src.agentposix.models.environment import EnvironmentSnapshot, SubAgentReference
-from src.agentposix.models.execution_pointer import ExecutionPointer
-from src.agentposix.models.message import ConversationHistory, ToolDefinition
-from src.agentposix.models.metadata import FreezeMetadata, IdentityBlock, ModelConfig
-from src.agentposix.models.side_effect import SideEffectRegistry
+from agentposix.enums import ASOStatus
+from agentposix.models.environment import EnvironmentSnapshot, SubAgentReference
+from agentposix.models.execution_pointer import ExecutionPointer
+from agentposix.models.message import ConversationHistory, ToolDefinition
+from agentposix.models.metadata import FreezeMetadata, IdentityBlock, ModelConfig
+from agentposix.models.side_effect import SideEffectRegistry
 
 
 class AgentStateObject(BaseModel):

@@ -2,7 +2,7 @@ from typing import Any, Dict, Optional
 
 from pydantic import BaseModel, Field
 
-from src.agentposix.enums import FreezeTriggerReasonEnum
+from agentposix.enums import FreezeTriggerReasonEnum
 
 
 class ModelConfig(BaseModel):

@@ -1,8 +1,8 @@
 import hashlib
 import json
 
-from src.agentposix.exceptions import ChecksumMismatchError
-from src.agentposix.models.aso import AgentStateObject
+from agentposix.exceptions import ChecksumMismatchError
+from agentposix.models.aso import AgentStateObject
 
 
 def compute_checksum(aso: AgentStateObject) -> str:

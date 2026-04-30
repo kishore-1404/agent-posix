@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import List
 
-from src.agentposix.models.aso import AgentStateObject
+from agentposix.models.aso import AgentStateObject
 
 
 class StorageBackend(ABC):

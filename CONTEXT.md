@@ -15,9 +15,10 @@ Execute the implementation blueprint in `agent_posix_implementation_blueprint.md
 - TASK 008: Added strict string enums for lifecycle status, freeze triggers, paradigms, and safe boundaries.
 - TASK 009: Added `ModelConfig`, `FreezeMetadata`, and `IdentityBlock` in `models/metadata.py`.
 - TASK 010: Added message, tool-call, conversation, and tool-definition schemas in `models/message.py`.
+- TASK 011: Added `ExecutionPointer` with topological and temporal state tracking.
 
 ## In Progress
-- TASK 011: Create execution pointer model.
+- TASK 012: Create side-effect model.
 
 ## Open Issues
 - `python3 -m venv` and activation emit `pyenv: cannot rehash ... shims isn't writable`, but environment creation and package installation still succeed.
@@ -27,6 +28,6 @@ Execute the implementation blueprint in `agent_posix_implementation_blueprint.md
 - A task is marked done only after implementation and basic validation complete.
 
 ## Next Steps
-1. Add execution, side-effect, and environment schema models.
+1. Add side-effect and environment schema models.
 2. Assemble the root ASO model and checksum logic.
 3. Add tests as models and storage backends take shape.

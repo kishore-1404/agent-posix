@@ -27,9 +27,10 @@ Execute the implementation blueprint in `agent_posix_implementation_blueprint.md
 - TASK 020: Added the resume protocol with checksum verification and RESUMING transition.
 - TASK 021: Added `FreezeSignalHandler` for `SIGINT` and `SIGTERM` checkpointing.
 - TASK 022: Added `checkpoint_boundary` for idempotent raw Python side-effect checkpoints.
+- TASK 023: Added `ASOLangGraphSaver` to map LangGraph checkpoints into ASO storage.
 
 ## In Progress
-- TASK 023: Create LangGraph adapter.
+- TASK 024: Create CLI entrypoint.
 
 ## Open Issues
 - `python3 -m venv` and activation emit `pyenv: cannot rehash ... shims isn't writable`, but environment creation and package installation still succeed.
@@ -39,6 +40,6 @@ Execute the implementation blueprint in `agent_posix_implementation_blueprint.md
 - A task is marked done only after implementation and basic validation complete.
 
 ## Next Steps
-1. Add the LangGraph checkpoint adapter.
-2. Add the CLI and root package API.
-3. Add the integration test and verify the end-to-end flow.
+1. Add the CLI and root package API.
+2. Add the integration test.
+3. Run the end-to-end verification flow.

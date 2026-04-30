@@ -11,9 +11,10 @@ Execute the implementation blueprint in `agent_posix_implementation_blueprint.md
 - TASK 004: Added `agentposix/.python-version` pinned to Python 3.10.0.
 - TASK 005: Created `agentposix/.venv` and installed the package with `adapters`, `storage`, and `dev` extras.
 - TASK 006: Added package and test `__init__.py` files across the source and test tree.
+- TASK 007: Added the shared Agent POSIX exception hierarchy in `src/agentposix/exceptions.py`.
 
 ## In Progress
-- TASK 007: Create `exceptions.py`.
+- TASK 008: Create `enums.py`.
 
 ## Open Issues
 - `python3 -m venv` and activation emit `pyenv: cannot rehash ... shims isn't writable`, but environment creation and package installation still succeed.
@@ -23,6 +24,6 @@ Execute the implementation blueprint in `agent_posix_implementation_blueprint.md
 - A task is marked done only after implementation and basic validation complete.
 
 ## Next Steps
-1. Add the shared exceptions module.
-2. Add enums and schema model files.
+1. Add enums for status and boundary semantics.
+2. Add schema model files.
 3. Add tests as models and storage backends take shape.

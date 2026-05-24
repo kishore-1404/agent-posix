@@ -73,6 +73,14 @@ agentposix = "agentposix.cli.main:app"
 [tool.pytest.ini_options]
 asyncio_mode = "auto"
 testpaths = ["tests"]
+addopts = "--cov=agentposix --cov-report=term-missing --cov-fail-under=90"
 filterwarnings = [
     "error::pydantic.warnings.PydanticDeprecatedSince20",
 ]
+
+[tool.coverage.run]
+branch = true
+source = ["agentposix"]
+
+[tool.coverage.report]
+show_missing = true

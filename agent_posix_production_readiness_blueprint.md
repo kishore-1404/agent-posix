@@ -328,12 +328,17 @@ The project is considered production-ready for open-source adoption only when al
   - Added production-flow integration coverage for filesystem freeze -> persist -> resume, checksum mismatch rejection after persisted tampering, filesystem/SQLite backend parity, and LangGraph checkpoint round-trip through `ASOLangGraphSaver`.
   - Verified with escalated `./.venv/bin/pytest tests/integration -q` and Ruff on the new integration test file.
 
-#### TASK P062 — Add coverage threshold
+#### TASK P062 — Add coverage threshold [DONE 2026-05-25]
 - **Goal:** Enforce minimum quality.
 - **Requirements:**
   - Add `pytest-cov` configuration.
   - Start with a threshold that is meaningful, then ratchet upward.
 - **Suggested initial gate:** `85%` overall, with higher expectations for core modules.
+- **Completion notes:**
+  - Added pytest coverage defaults in `pyproject.toml` using `--cov=agentposix`, `--cov-report=term-missing`, and `--cov-fail-under=90`.
+  - Added coverage configuration with branch coverage enabled and package source scoped to `agentposix`.
+  - Chose a `90%` initial gate because the measured suite is above the suggested `85%` baseline.
+  - Verified with escalated `./.venv/bin/pytest -q`; current total coverage is `91.41%`.
 
 #### TASK P063 — Add lint and format enforcement
 - **Goal:** Keep the codebase consistent.

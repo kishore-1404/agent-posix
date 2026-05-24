@@ -110,6 +110,17 @@ For durability, concurrency, and recovery details, see
 [`docs/concepts/storage-backends.md`](docs/concepts/storage-backends.md).
 Architecture details are documented in
 [`docs/concepts/architecture.md`](docs/concepts/architecture.md).
+For troubleshooting, see
+[`docs/concepts/troubleshooting.md`](docs/concepts/troubleshooting.md).
+For dependency rules, see
+[`docs/concepts/dependency-policy.md`](docs/concepts/dependency-policy.md).
+
+## Reference & Release Docs
+
+- **Python API Reference:** [`docs/api-reference/python-api.md`](docs/api-reference/python-api.md)
+- **CLI Reference:** [`docs/api-reference/cli.md`](docs/api-reference/cli.md)
+- **Alpha Release Criteria:** [`docs/release/alpha-criteria.md`](docs/release/alpha-criteria.md)
+- **Alpha Release Checklist:** [`docs/release/v0.1.0-alpha-checklist.md`](docs/release/v0.1.0-alpha-checklist.md)
 
 ## Adapter Docs
 

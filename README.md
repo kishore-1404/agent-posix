@@ -111,6 +111,17 @@ For durability, concurrency, and recovery details, see
 [`agentposix/docs/concepts/storage-backends.md`](agentposix/docs/concepts/storage-backends.md).
 Architecture details are documented in
 [`agentposix/docs/concepts/architecture.md`](agentposix/docs/concepts/architecture.md).
+For troubleshooting, see
+[`agentposix/docs/concepts/troubleshooting.md`](agentposix/docs/concepts/troubleshooting.md).
+For dependency rules, see
+[`agentposix/docs/concepts/dependency-policy.md`](agentposix/docs/concepts/dependency-policy.md).
+
+## Reference & Release Docs
+
+- **Python API Reference:** [`agentposix/docs/api-reference/python-api.md`](agentposix/docs/api-reference/python-api.md)
+- **CLI Reference:** [`agentposix/docs/api-reference/cli.md`](agentposix/docs/api-reference/cli.md)
+- **Alpha Release Criteria:** [`agentposix/docs/release/alpha-criteria.md`](agentposix/docs/release/alpha-criteria.md)
+- **Alpha Release Checklist:** [`agentposix/docs/release/v0.1.0-alpha-checklist.md`](agentposix/docs/release/v0.1.0-alpha-checklist.md)
 
 ## Adapter Docs
 

@@ -63,6 +63,15 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - TASK P063: Added Ruff lint/format configuration, documented local quality-gate commands in `agentposix/README.md`, applied Ruff safe fixes/formatting, and verified lint, format, and tests.
 - TASK P070: Rewrote the root and package READMEs for adopters with problem statement, capabilities, non-goals, alpha maturity, installation, optional extras, quickstart, CLI usage, storage guidance, adapter docs, development checks, and project status links.
 - TASK P071: Added architecture docs covering ASO structure, lifecycle protocol, backend model, adapter model, and idempotency semantics in `agentposix/docs/concepts/architecture.md`.
+- TASK P072: Created public Python API reference (`agentposix/docs/api-reference/python-api.md`) and CLI reference (`agentposix/docs/api-reference/cli.md`).
+- TASK P073: Created troubleshooting guide (`agentposix/docs/concepts/troubleshooting.md`) covering checksum mismatch, storage paths, imports/extras, environment drift, and LangGraph adapter pitfalls.
+- TASK P074: Created standard OSS governance files (`LICENSE`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`, `SECURITY.md`, and issue/PR templates in `.github/`).
+- TASK P080: Added linter (`ruff check`) and formatter (`ruff format`) enforcement in the GitHub Actions python compatibility workflow.
+- TASK P081: Added release workflow (`.github/workflows/release.yml`) to verify, build, twine-check, and create GitHub Releases on tag pushes.
+- TASK P082: Added dependency management policy documentation (`agentposix/docs/concepts/dependency-policy.md`).
+- TASK P090: Defined release criteria for `v0.1.0-alpha` in `agentposix/docs/release/alpha-criteria.md`.
+- TASK P091: Created and executed an automated local smoke test script (`agentposix/scripts/smoke_test.sh`) verifying package wheel build, clean venv installation, import, quickstart logic, and CLI entrypoint.
+- TASK P092: Published v0.1.0-alpha checklist and capability matrix in `agentposix/docs/release/v0.1.0-alpha-checklist.md`.
 
 ## In Progress
 - None.
@@ -94,6 +103,6 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - The manual freeze CLI intentionally uses complete ASO JSON input and is a debugging/power-user command, not a friendly ASO authoring wizard.
 
 ## Next Steps
-1. Add API/troubleshooting docs in `P072`-`P073`.
-2. Add OSS governance files in `P074`.
-3. Re-run build validation after documentation packaging changes.
+1. Push release tags to test the automated release workflow.
+2. Collect early adopter feedback from team integrations.
+3. Plan for beta-readiness phase (e.g. cross-process file-locking, automated schema migration path).

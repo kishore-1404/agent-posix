@@ -80,9 +80,7 @@ async def test_sqlite_backend_missing_session_behavior(tmp_path):
         await backend.read_aso("missing")
 
 
-async def insert_raw_payload(
-    backend: AsyncSqliteBackend, session_id: str, payload: str
-) -> None:
+async def insert_raw_payload(backend: AsyncSqliteBackend, session_id: str, payload: str) -> None:
     await backend._init_db()
     async with aiosqlite.connect(backend.db_path) as db:
         await db.execute(

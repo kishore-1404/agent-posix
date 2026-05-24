@@ -1,7 +1,3 @@
-import os
-
-import pytest
-
 from agentposix import AgentStateObject, FilesystemBackend, checkpoint_boundary
 from agentposix.enums import FreezeTriggerReasonEnum, ParadigmEnum
 from agentposix.models.environment import EnvironmentSnapshot

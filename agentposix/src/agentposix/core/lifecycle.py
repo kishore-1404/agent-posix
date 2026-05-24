@@ -2,7 +2,6 @@ from agentposix.enums import ASOStatus
 from agentposix.exceptions import StateTransitionError
 from agentposix.models.aso import AgentStateObject
 
-
 ALLOWED_STATE_TRANSITIONS: dict[ASOStatus, set[ASOStatus]] = {
     ASOStatus.INITIALIZING: {
         ASOStatus.RUNNING,

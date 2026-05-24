@@ -17,8 +17,7 @@ class AsyncSqliteBackend:
         async with aiosqlite.connect(self.db_path) as db:
             await db.execute("PRAGMA journal_mode=WAL;")
             await db.execute(
-                "CREATE TABLE IF NOT EXISTS checkpoints "
-                "(session_id TEXT PRIMARY KEY, payload JSON)"
+                "CREATE TABLE IF NOT EXISTS checkpoints (session_id TEXT PRIMARY KEY, payload JSON)"
             )
             await db.commit()
 
@@ -56,8 +55,7 @@ class AsyncSqliteBackend:
                     return AgentStateObject.model_validate(payload)
                 except ValidationError as exc:
                     raise InvalidASOError(
-                        f"Invalid ASO payload for session {session_id}: "
-                        "schema validation failed"
+                        f"Invalid ASO payload for session {session_id}: schema validation failed"
                     ) from exc
 
     async def list_sessions(self) -> list[str]:

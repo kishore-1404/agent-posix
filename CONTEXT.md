@@ -60,6 +60,7 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - TASK P060: Completed the focused unit-suite pass across the named scope. Existing tests cover models, freeze/resume, storage backends, raw decorator, LangGraph adapter, package exports, and CLI; added checksum and signal handler tests to close the remaining explicit module gaps.
 - TASK P061: Added integration coverage for filesystem freeze -> persist -> resume, checksum mismatch rejection after persisted tampering, filesystem/SQLite backend parity, and LangGraph checkpoint round-trip. Existing end-to-end coverage continues to validate duplicate side-effect suppression.
 - TASK P062: Added pytest-cov defaults and a 90% coverage gate in `agentposix/pyproject.toml`. Branch coverage is enabled and source is scoped to `agentposix`; current measured coverage is 91.41%.
+- TASK P063: Added Ruff lint/format configuration, documented local quality-gate commands in `agentposix/README.md`, applied Ruff safe fixes/formatting, and verified lint, format, and tests.
 
 ## In Progress
 - None.
@@ -68,7 +69,6 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - `python3 -m venv` and activation emit `pyenv: cannot rehash ... shims isn't writable`, but environment creation and package installation still succeed.
 - `python -m build` without `--no-isolation` still cannot run in this environment unless network access is available, because the isolated build bootstrap tries to resolve build requirements from package indexes.
 - In the Codex sandbox, `aiosqlite.connect()` hangs even in a minimal script. SQLite tests pass outside the sandbox under supported Python `3.12.9`, so this currently appears to be an execution-environment limitation rather than a repository bug.
-- `./.venv/bin/ruff check src tests/unit/test_storage` currently reports pre-existing unused imports in `src/agentposix/adapters/langgraph/adapter.py` and `src/agentposix/models/environment.py`. The files touched for `P032` and `P040` pass Ruff.
 
 ## Decisions
 - `CONTEXT.md` is the canonical handoff file for ongoing work.
@@ -92,6 +92,6 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - The manual freeze CLI intentionally uses complete ASO JSON input and is a debugging/power-user command, not a friendly ASO authoring wizard.
 
 ## Next Steps
-1. Execute `P063` to add lint and format enforcement.
-2. Continue documentation workstreams after quality gates are in place.
-3. Re-run build validation after lint/format configuration changes.
+1. Continue with `P070` README rewrite for adopters.
+2. Add architecture/API/troubleshooting docs in `P071`-`P073`.
+3. Add OSS governance files in `P074`.

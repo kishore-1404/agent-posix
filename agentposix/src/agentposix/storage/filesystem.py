@@ -1,8 +1,8 @@
 import json
-from json import JSONDecodeError
 import os
-from pathlib import Path
 import threading
+from json import JSONDecodeError
+from pathlib import Path
 from typing import List
 
 from pydantic import ValidationError
@@ -86,9 +86,7 @@ class FilesystemBackend(StorageBackend):
             with open(path, "r", encoding="utf-8") as f:
                 data = json.load(f)
         except JSONDecodeError as exc:
-            raise InvalidASOError(
-                f"Invalid ASO JSON for session {session_id}: {exc.msg}"
-            ) from exc
+            raise InvalidASOError(f"Invalid ASO JSON for session {session_id}: {exc.msg}") from exc
         except OSError as exc:
             raise InvalidASOError(
                 f"Unable to read ASO for session {session_id}: {exc.strerror or exc}"

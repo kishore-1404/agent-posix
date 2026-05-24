@@ -7,9 +7,7 @@ from agentposix.enums import FreezeTriggerReasonEnum
 
 class ModelConfig(BaseModel):
     provider: str = Field(..., json_schema_extra={"example": "anthropic"})
-    model_id: str = Field(
-        ..., json_schema_extra={"example": "claude-3-5-sonnet-20241022"}
-    )
+    model_id: str = Field(..., json_schema_extra={"example": "claude-3-5-sonnet-20241022"})
     temperature: float = Field(0.0)
     max_tokens: Optional[int] = None
     top_p: Optional[float] = None

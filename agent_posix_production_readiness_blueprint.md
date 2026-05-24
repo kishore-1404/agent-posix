@@ -340,11 +340,16 @@ The project is considered production-ready for open-source adoption only when al
   - Chose a `90%` initial gate because the measured suite is above the suggested `85%` baseline.
   - Verified with escalated `./.venv/bin/pytest -q`; current total coverage is `91.41%`.
 
-#### TASK P063 — Add lint and format enforcement
+#### TASK P063 — Add lint and format enforcement [DONE 2026-05-25]
 - **Goal:** Keep the codebase consistent.
 - **Requirements:**
   - Configure Ruff for linting and formatting rules.
   - Add commands to run checks locally and in CI.
+- **Completion notes:**
+  - Added explicit Ruff configuration in `pyproject.toml` for Python 3.10, 100-character lines, import ordering, pycodestyle, and pyflakes checks.
+  - Added local quality-gate commands to `agentposix/README.md`: `pytest`, `ruff check src tests`, and `ruff format --check src tests`.
+  - Applied Ruff safe fixes and formatting to the current source/test tree.
+  - Verified with `./.venv/bin/ruff check src tests`, `./.venv/bin/ruff format --check src tests`, and escalated `./.venv/bin/pytest -q`.
 
 ### WORKSTREAM H — Documentation and OSS Readiness
 

@@ -1,7 +1,7 @@
 import pytest
 
-from agentposix.core.checksum import compute_checksum
 from agentposix.core import host_drift
+from agentposix.core.checksum import compute_checksum
 from agentposix.core.resume import resume
 from agentposix.enums import ASOStatus, FreezeTriggerReasonEnum, ParadigmEnum
 from agentposix.exceptions import ChecksumMismatchError, StateTransitionError

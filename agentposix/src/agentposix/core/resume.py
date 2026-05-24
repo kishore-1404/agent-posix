@@ -1,8 +1,8 @@
 from datetime import datetime, timezone
 
-from agentposix.core.lifecycle import transition_state
 from agentposix.core.checksum import verify_checksum
 from agentposix.core.host_drift import validate_environment_snapshot
+from agentposix.core.lifecycle import transition_state
 from agentposix.enums import ASOStatus
 from agentposix.models.aso import AgentStateObject
 from agentposix.storage.base import StorageBackend

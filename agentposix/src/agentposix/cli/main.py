@@ -31,9 +31,7 @@ def inspect(session_id: str, path: str):
         se_branch = tree.add("Side Effects")
         for se in aso.side_effects.entries:
             color = "green" if se.result_summary else "yellow"
-            se_branch.add(
-                f"{se.tool_name} [[bold {color}]{se.idempotency_key[:8]}[/bold {color}]]"
-            )
+            se_branch.add(f"{se.tool_name} [[bold {color}]{se.idempotency_key[:8]}[/bold {color}]]")
         console.print(tree)
     except Exception as e:
         console.print(f"[bold red]Error loading ASO:[/bold red] {str(e)}")

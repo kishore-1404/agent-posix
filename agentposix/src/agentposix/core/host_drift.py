@@ -48,9 +48,7 @@ def capture_environment_snapshot(snapshot: EnvironmentSnapshot) -> EnvironmentSn
     captured.cwd = _current_cwd()
     captured.python_version = _current_python_version()
     captured.platform = _current_platform()
-    captured.env_vars = {
-        name: _current_env_value(name) for name in snapshot.env_vars
-    }
+    captured.env_vars = {name: _current_env_value(name) for name in snapshot.env_vars}
     captured.file_checksums = {
         path: _current_file_checksum(path) for path in snapshot.file_checksums
     }
@@ -78,9 +76,7 @@ def validate_environment_snapshot(snapshot: EnvironmentSnapshot) -> list[str]:
     current_platform = _current_platform()
 
     if snapshot.cwd != current_cwd:
-        fatal_mismatches.append(
-            f"cwd changed: expected {snapshot.cwd}, got {current_cwd}"
-        )
+        fatal_mismatches.append(f"cwd changed: expected {snapshot.cwd}, got {current_cwd}")
     if snapshot.python_version != current_python_version:
         fatal_mismatches.append(
             "python_version changed: "
@@ -100,16 +96,12 @@ def validate_environment_snapshot(snapshot: EnvironmentSnapshot) -> list[str]:
             )
             continue
         if expected_checksum != current_checksum:
-            fatal_mismatches.append(
-                f"tracked file checksum changed: {path}"
-            )
+            fatal_mismatches.append(f"tracked file checksum changed: {path}")
 
     for name, expected_value in snapshot.env_vars.items():
         current_value = _current_env_value(name)
         if expected_value != current_value:
-            advisories.append(
-                f"environment variable changed: {name}"
-            )
+            advisories.append(f"environment variable changed: {name}")
 
     if snapshot.git_commit_hash:
         current_git_commit_hash = _current_git_commit_hash(current_cwd)
@@ -118,8 +110,7 @@ def validate_environment_snapshot(snapshot: EnvironmentSnapshot) -> list[str]:
 
     if fatal_mismatches:
         raise HostDriftError(
-            "Host environment drift detected for resume: "
-            + "; ".join(fatal_mismatches)
+            "Host environment drift detected for resume: " + "; ".join(fatal_mismatches)
         )
 
     return advisories

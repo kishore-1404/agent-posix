@@ -3,7 +3,6 @@ from pathlib import Path
 
 from agentposix.models.aso import AgentStateObject
 
-
 SCHEMA_PATH = Path(__file__).resolve().parents[3] / "spec" / "agent_state_object.schema.json"
 
 

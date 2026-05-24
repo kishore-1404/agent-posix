@@ -10,3 +10,13 @@ Raw Python adapter replay semantics are documented in
 [`docs/adapters/raw-python.md`](docs/adapters/raw-python.md).
 Adapter extension requirements are documented in
 [`docs/adapters/extension-contract.md`](docs/adapters/extension-contract.md).
+
+## Development Checks
+
+Run the local quality gates from this package directory:
+
+```bash
+pytest
+ruff check src tests
+ruff format --check src tests
+```

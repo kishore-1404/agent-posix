@@ -93,7 +93,9 @@ def test_resume_rejects_tracked_file_drift(tmp_path, monkeypatch):
             cwd=str(tmp_path),
             python_version=host_drift._current_python_version(),
             platform=host_drift._current_platform(),
-            file_checksums={str(tracked_file): host_drift._current_file_checksum(str(tracked_file))},
+            file_checksums={
+                str(tracked_file): host_drift._current_file_checksum(str(tracked_file))
+            },
         )
     )
     aso.status = ASOStatus.CHECKPOINTED

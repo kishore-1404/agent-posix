@@ -10,7 +10,6 @@ from agentposix.models.aso import AgentStateObject
 from agentposix.models.side_effect import SideEffectEntry
 from agentposix.storage.base import StorageBackend
 
-
 _RESULT_FORMAT_JSON = "json"
 _RESULT_FORMAT_REPR = "repr"
 

@@ -58,6 +58,7 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - TASK P051: Added the debugging-oriented `agentposix freeze --input ASO_JSON --path PATH [--summary TEXT]` CLI command. It accepts a complete ASO JSON payload, validates it through the public ASO model, runs the core `freeze()` protocol, persists through the filesystem backend, and prints status, frozen timestamp, checksum, and optional summary.
 - TASK P052: Added CLI coverage for top-level `--help`, `inspect` success, `inspect` missing-session errors, `resume` success/error behavior, `freeze` success/error behavior, and explicit filesystem `--path` backend options.
 - TASK P060: Completed the focused unit-suite pass across the named scope. Existing tests cover models, freeze/resume, storage backends, raw decorator, LangGraph adapter, package exports, and CLI; added checksum and signal handler tests to close the remaining explicit module gaps.
+- TASK P061: Added integration coverage for filesystem freeze -> persist -> resume, checksum mismatch rejection after persisted tampering, filesystem/SQLite backend parity, and LangGraph checkpoint round-trip. Existing end-to-end coverage continues to validate duplicate side-effect suppression.
 
 ## In Progress
 - None.
@@ -90,6 +91,6 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - The manual freeze CLI intentionally uses complete ASO JSON input and is a debugging/power-user command, not a friendly ASO authoring wizard.
 
 ## Next Steps
-1. Execute `P061` integration coverage for realistic multi-step flows.
-2. Execute `P062` to add coverage threshold configuration.
-3. Address repo-wide Ruff unused-import findings as part of `P063` lint enforcement.
+1. Execute `P062` to add coverage threshold configuration.
+2. Address repo-wide Ruff unused-import findings as part of `P063` lint enforcement.
+3. Continue documentation workstreams after quality gates are in place.

@@ -315,7 +315,7 @@ The project is considered production-ready for open-source adoption only when al
   - Added signal handler tests for signal registration/deregistration and freeze-on-signal behavior without sending real process signals.
   - Verified with targeted checksum/signal tests, Ruff on new test files, and escalated `./.venv/bin/pytest tests/unit -q`.
 
-#### TASK P061 — Build integration test suite
+#### TASK P061 — Build integration test suite [DONE 2026-05-25]
 - **Goal:** Cover realistic multi-step flows.
 - **Requirements:**
   - freeze -> persist -> resume
@@ -323,6 +323,10 @@ The project is considered production-ready for open-source adoption only when al
   - checksum mismatch rejection
   - filesystem and SQLite parity
   - LangGraph checkpoint round-trip
+- **Completion notes:**
+  - Existing end-to-end integration coverage already validated duplicate side-effect suppression through the raw Python checkpoint decorator.
+  - Added production-flow integration coverage for filesystem freeze -> persist -> resume, checksum mismatch rejection after persisted tampering, filesystem/SQLite backend parity, and LangGraph checkpoint round-trip through `ASOLangGraphSaver`.
+  - Verified with escalated `./.venv/bin/pytest tests/integration -q` and Ruff on the new integration test file.
 
 #### TASK P062 — Add coverage threshold
 - **Goal:** Enforce minimum quality.

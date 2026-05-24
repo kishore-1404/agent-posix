@@ -2,6 +2,7 @@ import click
 from rich.console import Console
 from rich.tree import Tree
 
+from agentposix.core.resume import resume as resume_aso
 from agentposix.storage.filesystem import FilesystemBackend
 
 console = Console()
@@ -32,6 +33,29 @@ def inspect(session_id: str, path: str):
         console.print(tree)
     except Exception as e:
         console.print(f"[bold red]Error loading ASO:[/bold red] {str(e)}")
+        raise SystemExit(1)
+
+
+@app.command()
+@click.argument("session_id")
+@click.option("--path", default=".agentposix", show_default=True)
+def resume(session_id: str, path: str):
+    """Resume an Agent State Object (ASO)."""
+    try:
+        backend = FilesystemBackend(path)
+        aso = resume_aso(session_id, backend)
+        tree = Tree(f"[bold blue]Resumed ASO: {session_id}[/bold blue]")
+        tree.add(f"Status: [bold]{aso.status.value}[/bold]")
+        tree.add(f"Frozen At: {aso.frozen_at or 'unknown'}")
+        tree.add(f"Resumed At: {aso.resumed_at or 'unknown'}")
+        tree.add("Checksum: [bold green]valid[/bold green]")
+        if aso.extensions.get("resume_advisories"):
+            advisories = tree.add("Advisories")
+            for advisory in aso.extensions["resume_advisories"]:
+                advisories.add(str(advisory))
+        console.print(tree)
+    except Exception as e:
+        console.print(f"[bold red]Error resuming ASO:[/bold red] {str(e)}")
         raise SystemExit(1)
 
 

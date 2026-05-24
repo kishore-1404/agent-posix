@@ -263,11 +263,17 @@ The project is considered production-ready for open-source adoption only when al
 
 ### WORKSTREAM F — CLI and User Experience
 
-#### TASK P050 — Implement `resume` CLI command
+#### TASK P050 — Implement `resume` CLI command [DONE 2026-05-25]
 - **Goal:** Expose restore behavior to end users.
 - **Requirements:**
   - Accept `session_id` and backend path/db options.
   - Print status, timestamps, and checksum result.
+- **Completion notes:**
+  - Added `agentposix resume SESSION_ID --path PATH` for filesystem-backed resume.
+  - The command invokes the core `resume()` protocol, so missing sessions, checksum mismatch, invalid lifecycle transitions, and host drift use the same validation path as the Python API.
+  - Successful output includes lifecycle status, frozen timestamp, resumed timestamp, checksum validity, and any resume advisories.
+  - Added Click runner tests for successful resume output and missing-session error behavior.
+  - Verified with `./.venv/bin/pytest tests/unit/test_cli/test_main.py -q` and Ruff on changed CLI files.
 
 #### TASK P051 — Implement `freeze` CLI command
 - **Goal:** Support manual checkpoint creation.

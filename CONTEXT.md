@@ -54,6 +54,7 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - TASK P040: Hardened the raw Python checkpoint decorator. Idempotency keys now include positional and keyword arguments, recorded tool arguments are JSON-safe, JSON results replay from stored side-effect entries, and non-JSON result replay raises `SideEffectReplayError` without re-executing side effects. Added raw adapter docs in `agentposix/docs/adapters/raw-python.md`.
 - TASK P041: Added realistic LangGraph adapter tests and improved `ASOLangGraphSaver` round-trip behavior. The adapter now persists full checkpoint payloads, metadata, new versions, checkpoint namespace, parent checkpoint id, and pending writes in ASO extensions, and restores them through `get_tuple()`.
 - TASK P042: Added the adapter extension contract in `agentposix/docs/adapters/extension-contract.md`, including adapter responsibilities, namespaced extension key rules, lifecycle hook expectations, compatibility boundaries, non-goals, and test requirements.
+- TASK P050: Added the `agentposix resume SESSION_ID --path PATH` CLI command. It uses the core `resume()` protocol and prints status, frozen/resumed timestamps, checksum validity, and resume advisories. Added Click runner coverage for success and missing-session error behavior.
 
 ## In Progress
 - None.
@@ -82,8 +83,9 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - Raw Python adapter idempotency includes positional arguments and keyword arguments. Non-JSON side-effect results are not replayed as fake values; duplicate calls raise `SideEffectReplayError` after confirming the side effect has already completed.
 - LangGraph adapter state is stored under namespaced `extensions["langgraph_*"]` keys so ASO core fields remain framework-neutral while `get_tuple()` can reconstruct real LangGraph checkpoint tuples.
 - Future adapters should preserve framework-specific state only under namespaced extension keys and should prove round-trip behavior with real framework payloads or types.
+- The first CLI lifecycle command uses filesystem storage only via `--path`; SQLite CLI selection remains open for later CLI/backend UX work unless a task explicitly expands scope.
 
 ## Next Steps
-1. Execute `P050` to implement the `resume` CLI command.
-2. Execute `P051` to define and implement the `freeze` CLI command shape.
-3. Execute `P052` to add CLI tests for help, inspect, error paths, and backend options.
+1. Execute `P051` to define and implement the `freeze` CLI command shape.
+2. Execute `P052` to add CLI tests for help, inspect, error paths, and backend options.
+3. Continue into `P060` unit coverage gaps after CLI lifecycle commands are complete.

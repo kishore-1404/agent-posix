@@ -15,6 +15,17 @@ from agentposix.models.side_effect import SideEffectRegistry
 from agentposix.storage.filesystem import FilesystemBackend
 
 
+def test_cli_help_lists_lifecycle_commands():
+    runner = CliRunner()
+
+    result = runner.invoke(app, ["--help"])
+
+    assert result.exit_code == 0
+    assert "inspect" in result.output
+    assert "resume" in result.output
+    assert "freeze" in result.output
+
+
 def make_checkpointed_aso(session_id: str) -> AgentStateObject:
     return AgentStateObject(
         identity=IdentityBlock(aso_id=f"aso-{session_id}", session_id=session_id),
@@ -43,6 +54,30 @@ def make_initializing_aso(session_id: str) -> AgentStateObject:
     aso.status = ASOStatus.INITIALIZING
     aso.frozen_at = None
     return aso
+
+
+def test_inspect_cli_prints_status_node_and_side_effects(tmp_path):
+    backend = FilesystemBackend(str(tmp_path))
+    backend.write_aso(make_checkpointed_aso("session-1"))
+    runner = CliRunner()
+
+    result = runner.invoke(app, ["inspect", "session-1", "--path", str(tmp_path)])
+
+    assert result.exit_code == 0
+    assert "ASO: session-1" in result.output
+    assert "Status: CHECKPOINTED" in result.output
+    assert "Node: None" in result.output
+    assert "Side Effects" in result.output
+
+
+def test_inspect_cli_reports_missing_session(tmp_path):
+    runner = CliRunner()
+
+    result = runner.invoke(app, ["inspect", "missing", "--path", str(tmp_path)])
+
+    assert result.exit_code == 1
+    assert "Error loading ASO:" in result.output
+    assert "No ASO found for missing" in result.output
 
 
 def test_resume_cli_prints_status_timestamps_and_checksum(tmp_path):

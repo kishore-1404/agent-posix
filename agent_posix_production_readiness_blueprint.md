@@ -288,11 +288,14 @@ The project is considered production-ready for open-source adoption only when al
   - Added Click runner coverage for successful manual checkpoint creation and invalid JSON input.
   - Verified with `./.venv/bin/pytest tests/unit/test_cli/test_main.py -q` and Ruff on changed CLI files.
 
-#### TASK P052 — Add CLI tests
+#### TASK P052 — Add CLI tests [DONE 2026-05-25]
 - **Goal:** Validate the installed console script behavior.
 - **Requirements:**
   - Test `--help`, `inspect`, error paths, and backend path options.
   - Run through subprocess or Click runner tests.
+- **Completion notes:**
+  - Added Click runner coverage for top-level `--help`, `inspect` success, `inspect` missing-session errors, `resume` success/error behavior, `freeze` success/error behavior, and explicit filesystem `--path` options.
+  - Verified with `./.venv/bin/pytest tests/unit/test_cli/test_main.py -q`, escalated `./.venv/bin/pytest -q`, and Ruff on changed CLI files.
 
 ### WORKSTREAM G — Testing and Quality Gates
 

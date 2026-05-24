@@ -61,6 +61,7 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - TASK P061: Added integration coverage for filesystem freeze -> persist -> resume, checksum mismatch rejection after persisted tampering, filesystem/SQLite backend parity, and LangGraph checkpoint round-trip. Existing end-to-end coverage continues to validate duplicate side-effect suppression.
 - TASK P062: Added pytest-cov defaults and a 90% coverage gate in `agentposix/pyproject.toml`. Branch coverage is enabled and source is scoped to `agentposix`; current measured coverage is 91.41%.
 - TASK P063: Added Ruff lint/format configuration, documented local quality-gate commands in `agentposix/README.md`, applied Ruff safe fixes/formatting, and verified lint, format, and tests.
+- TASK P070: Rewrote the root and package READMEs for adopters with problem statement, capabilities, non-goals, alpha maturity, installation, optional extras, quickstart, CLI usage, storage guidance, adapter docs, development checks, and project status links.
 
 ## In Progress
 - None.
@@ -92,6 +93,6 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - The manual freeze CLI intentionally uses complete ASO JSON input and is a debugging/power-user command, not a friendly ASO authoring wizard.
 
 ## Next Steps
-1. Continue with `P070` README rewrite for adopters.
-2. Add architecture/API/troubleshooting docs in `P071`-`P073`.
-3. Add OSS governance files in `P074`.
+1. Add architecture/API/troubleshooting docs in `P071`-`P073`.
+2. Add OSS governance files in `P074`.
+3. Re-run build validation after documentation packaging changes.

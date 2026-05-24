@@ -353,7 +353,7 @@ The project is considered production-ready for open-source adoption only when al
 
 ### WORKSTREAM H — Documentation and OSS Readiness
 
-#### TASK P070 — Rewrite README for adopters
+#### TASK P070 — Rewrite README for adopters [DONE 2026-05-25]
 - **Goal:** Make the project understandable from the outside.
 - **Requirements:**
   - Problem statement
@@ -362,6 +362,10 @@ The project is considered production-ready for open-source adoption only when al
   - quickstart
   - storage options
   - current maturity level
+- **Completion notes:**
+  - Rewrote both the repository root `README.md` and package `agentposix/README.md` for external adopters.
+  - Added problem statement, provided capabilities, explicit non-goals, alpha maturity note, installation instructions, optional extras, quickstart code, CLI examples, storage guidance, adapter docs, development checks, and project status links.
+  - Verified package metadata still builds with `./.venv/bin/python -m build --no-isolation`.
 
 #### TASK P071 — Add architecture docs
 - **Goal:** Explain the system beyond code.

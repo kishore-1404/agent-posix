@@ -240,17 +240,26 @@ The project is considered production-ready for open-source adoption only when al
   - Documented raw adapter idempotency and replay assumptions in `agentposix/docs/adapters/raw-python.md`.
   - Verified with `./.venv/bin/pytest tests/unit/test_adapters/test_raw_python_decorator.py tests/integration/test_end_to_end.py -q`, escalated `./.venv/bin/pytest -q`, and Ruff on changed source/test files.
 
-#### TASK P041 — Add LangGraph integration tests
+#### TASK P041 — Add LangGraph integration tests [DONE 2026-05-25]
 - **Goal:** Verify real adapter behavior.
 - **Requirements:**
   - Test `put()` and `get_tuple()` against realistic checkpoint payloads.
   - Validate node mapping, channel persistence, and thread/session mapping.
+- **Completion notes:**
+  - Updated `ASOLangGraphSaver` to persist full LangGraph checkpoint payloads, metadata, new channel versions, checkpoint namespace, parent checkpoint id, and pending writes in ASO extensions.
+  - `put()` now returns a LangGraph-style config containing `thread_id`, `checkpoint_ns`, and the persisted `checkpoint_id`.
+  - `get_tuple()` now restores checkpoint data, metadata, parent config, and pending writes from the stored ASO.
+  - Added unit coverage using real `langgraph.checkpoint.base` types for `put()`, `get_tuple()`, channel/version persistence, node mapping from metadata writes, thread/session mapping, parent checkpoint mapping, and missing-thread behavior.
+  - Verified with `./.venv/bin/pytest tests/unit/test_adapters/test_langgraph_adapter.py tests/unit/test_package_exports.py -q`, escalated `./.venv/bin/pytest -q`, and Ruff on changed LangGraph files.
 
-#### TASK P042 — Define adapter extension contract
+#### TASK P042 — Define adapter extension contract [DONE 2026-05-25]
 - **Goal:** Allow future integrations.
 - **Requirements:**
   - Document expectations for framework adapters.
   - Specify required extension keys, lifecycle hooks, and compatibility boundaries.
+- **Completion notes:**
+  - Added `agentposix/docs/adapters/extension-contract.md` covering adapter responsibilities, namespaced extension keys, lifecycle hook expectations, compatibility boundaries, non-goals, and adapter test requirements.
+  - Linked the adapter extension contract from `agentposix/README.md`.
 
 ### WORKSTREAM F — CLI and User Experience
 

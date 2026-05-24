@@ -8,3 +8,5 @@ Storage backend selection guidance is available in
 [`docs/concepts/storage-backends.md`](docs/concepts/storage-backends.md).
 Raw Python adapter replay semantics are documented in
 [`docs/adapters/raw-python.md`](docs/adapters/raw-python.md).
+Adapter extension requirements are documented in
+[`docs/adapters/extension-contract.md`](docs/adapters/extension-contract.md).

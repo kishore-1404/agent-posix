@@ -299,7 +299,7 @@ The project is considered production-ready for open-source adoption only when al
 
 ### WORKSTREAM G — Testing and Quality Gates
 
-#### TASK P060 — Build unit test suite
+#### TASK P060 — Build unit test suite [DONE 2026-05-25]
 - **Goal:** Cover every module with focused tests.
 - **Scope:**
   - models
@@ -309,6 +309,11 @@ The project is considered production-ready for open-source adoption only when al
   - signal handler
   - raw decorator
   - CLI
+- **Completion notes:**
+  - Existing unit coverage already covered models, freeze/resume, storage backends, raw decorator behavior, LangGraph adapter behavior, package exports, and CLI commands.
+  - Added focused checksum tests for deterministic checksum generation, checksum-field exclusion, valid verification, and tamper rejection.
+  - Added signal handler tests for signal registration/deregistration and freeze-on-signal behavior without sending real process signals.
+  - Verified with targeted checksum/signal tests, Ruff on new test files, and escalated `./.venv/bin/pytest tests/unit -q`.
 
 #### TASK P061 — Build integration test suite
 - **Goal:** Cover realistic multi-step flows.

@@ -204,26 +204,41 @@ The project is considered production-ready for open-source adoption only when al
   - Documented guarantees and limits directly on `FilesystemBackend`.
   - Added unit coverage for parent-directory recreation, checksum persistence behavior, existence/list/delete behavior, and validated the full suite under Python `3.12.9`.
 
-#### TASK P032 — Add corruption and recovery tests
+#### TASK P032 — Add corruption and recovery tests [DONE 2026-05-24]
 - **Goal:** Verify failure behavior.
 - **Requirements:**
   - Test partial JSON, invalid checksum, unreadable files, and unexpected payload shape.
   - Ensure failures are deterministic and actionable.
+- **Completion notes:**
+  - Normalized filesystem and SQLite read failures so partial JSON and malformed ASO payloads raise `InvalidASOError` with stable session-specific messages.
+  - Added filesystem tests for partial JSON, unreadable payload paths, unexpected payload shape, and checksum mismatch behavior.
+  - Added SQLite tests for partial JSON, unexpected payload shape, and checksum mismatch behavior.
+  - Verified with `./.venv/bin/pytest tests/unit/test_storage/test_filesystem_backend.py -q`, escalated `./.venv/bin/pytest tests/unit/test_storage/test_sqlite_backend.py -q`, and escalated `./.venv/bin/pytest -q`.
 
-#### TASK P033 — Define backend selection guidance
+#### TASK P033 — Define backend selection guidance [DONE 2026-05-24]
 - **Goal:** Help adopters choose storage correctly.
 - **Requirements:**
   - Document when to use filesystem vs SQLite.
   - Document durability, concurrency, and operational tradeoffs.
+- **Completion notes:**
+  - Added `agentposix/docs/concepts/storage-backends.md` covering filesystem vs SQLite selection, durability guarantees, concurrency limits, failure behavior, and recovery guidance.
+  - Linked the storage guide from `agentposix/README.md`.
 
 ### WORKSTREAM E — Adapters and Integrations
 
-#### TASK P040 — Harden raw checkpoint decorator
+#### TASK P040 — Harden raw checkpoint decorator [DONE 2026-05-24]
 - **Goal:** Make idempotency semantics explicit and reliable.
 - **Requirements:**
   - Decide whether positional args are part of the idempotency key.
   - Add handling for non-JSON-serializable results.
   - Document replay assumptions.
+- **Completion notes:**
+  - Positional and keyword arguments are now both included in the deterministic idempotency key.
+  - Recorded tool arguments are normalized into JSON-safe `{"args": ..., "kwargs": ...}` payloads.
+  - JSON-serializable results are replayed from the stored side-effect entry; non-JSON-serializable results are recorded with a `repr()` summary and duplicate calls raise `SideEffectReplayError` without re-executing the side effect.
+  - Added unit coverage for positional argument keys, distinct positional calls, and non-JSON replay behavior.
+  - Documented raw adapter idempotency and replay assumptions in `agentposix/docs/adapters/raw-python.md`.
+  - Verified with `./.venv/bin/pytest tests/unit/test_adapters/test_raw_python_decorator.py tests/integration/test_end_to_end.py -q`, escalated `./.venv/bin/pytest -q`, and Ruff on changed source/test files.
 
 #### TASK P041 — Add LangGraph integration tests
 - **Goal:** Verify real adapter behavior.

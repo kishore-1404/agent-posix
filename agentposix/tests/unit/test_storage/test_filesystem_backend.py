@@ -1,7 +1,10 @@
-from pathlib import Path
+import json
 
-from agentposix.core.checksum import compute_checksum
+import pytest
+
+from agentposix.core.checksum import compute_checksum, verify_checksum
 from agentposix.enums import ASOStatus, FreezeTriggerReasonEnum, ParadigmEnum
+from agentposix.exceptions import ChecksumMismatchError, InvalidASOError
 from agentposix.models.aso import AgentStateObject
 from agentposix.models.environment import EnvironmentSnapshot
 from agentposix.models.execution_pointer import ExecutionPointer
@@ -68,3 +71,51 @@ def test_filesystem_backend_lists_deletes_and_checks_existence(tmp_path):
 
     assert backend.exists("session-a") is False
     assert sorted(backend.list_sessions()) == ["session-b"]
+
+
+def test_filesystem_backend_rejects_partial_json_with_actionable_error(tmp_path):
+    backend = FilesystemBackend(str(tmp_path))
+    backend._get_path("session-1").write_text('{"identity": ', encoding="utf-8")
+
+    with pytest.raises(InvalidASOError, match="Invalid ASO JSON for session session-1"):
+        backend.read_aso("session-1")
+
+
+def test_filesystem_backend_rejects_unexpected_payload_shape(tmp_path):
+    backend = FilesystemBackend(str(tmp_path))
+    backend._get_path("session-1").write_text(
+        json.dumps({"unexpected": "payload"}),
+        encoding="utf-8",
+    )
+
+    with pytest.raises(
+        InvalidASOError,
+        match="Invalid ASO payload for session session-1: schema validation failed",
+    ):
+        backend.read_aso("session-1")
+
+
+def test_filesystem_backend_reports_unreadable_payload_path(tmp_path):
+    backend = FilesystemBackend(str(tmp_path))
+    backend._get_path("session-1").mkdir()
+
+    with pytest.raises(InvalidASOError, match="Unable to read ASO for session session-1"):
+        backend.read_aso("session-1")
+
+
+def test_filesystem_backend_invalid_checksum_is_deterministic(tmp_path):
+    backend = FilesystemBackend(str(tmp_path))
+    aso = make_aso("session-1", summary="stable")
+    backend.write_aso(aso)
+
+    path = backend._get_path("session-1")
+    payload = json.loads(path.read_text(encoding="utf-8"))
+    payload["human_summary"] = "tampered"
+    path.write_text(json.dumps(payload), encoding="utf-8")
+
+    stored = backend.read_aso("session-1")
+    with pytest.raises(
+        ChecksumMismatchError,
+        match="ASO checksum verification failed for session session-1",
+    ):
+        verify_checksum(stored)

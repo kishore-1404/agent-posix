@@ -22,6 +22,12 @@ class InvalidASOError(AgentPOSIXError):
     pass
 
 
+class SideEffectReplayError(AgentPOSIXError):
+    """Raised when a completed side-effect cannot be replayed safely."""
+
+    pass
+
+
 class StateTransitionError(AgentPOSIXError):
     """Raised for invalid lifecycle state transitions."""
 

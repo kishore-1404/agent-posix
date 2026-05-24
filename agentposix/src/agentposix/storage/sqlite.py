@@ -1,7 +1,11 @@
-import aiosqlite
 import json
+from json import JSONDecodeError
+
+import aiosqlite
+from pydantic import ValidationError
 
 from agentposix.core.checksum import compute_checksum
+from agentposix.exceptions import InvalidASOError
 from agentposix.models.aso import AgentStateObject
 
 
@@ -42,7 +46,19 @@ class AsyncSqliteBackend:
                 row = await cursor.fetchone()
                 if not row:
                     raise FileNotFoundError(f"No ASO found for session {session_id}")
-                return AgentStateObject.model_validate_json(row[0])
+                try:
+                    payload = json.loads(row[0])
+                except JSONDecodeError as exc:
+                    raise InvalidASOError(
+                        f"Invalid ASO JSON for session {session_id}: {exc.msg}"
+                    ) from exc
+                try:
+                    return AgentStateObject.model_validate(payload)
+                except ValidationError as exc:
+                    raise InvalidASOError(
+                        f"Invalid ASO payload for session {session_id}: "
+                        "schema validation failed"
+                    ) from exc
 
     async def list_sessions(self) -> list[str]:
         await self._init_db()

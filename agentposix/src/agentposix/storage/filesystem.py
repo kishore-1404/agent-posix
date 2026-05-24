@@ -1,10 +1,14 @@
 import json
+from json import JSONDecodeError
 import os
 from pathlib import Path
 import threading
 from typing import List
 
+from pydantic import ValidationError
+
 from agentposix.core.checksum import compute_checksum
+from agentposix.exceptions import InvalidASOError
 from agentposix.models.aso import AgentStateObject
 from agentposix.storage.base import StorageBackend
 
@@ -78,9 +82,24 @@ class FilesystemBackend(StorageBackend):
         path = self._get_path(session_id)
         if not path.exists():
             raise FileNotFoundError(f"No ASO found for {session_id}")
-        with open(path, "r", encoding="utf-8") as f:
-            data = json.load(f)
-        return AgentStateObject.model_validate(data)
+        try:
+            with open(path, "r", encoding="utf-8") as f:
+                data = json.load(f)
+        except JSONDecodeError as exc:
+            raise InvalidASOError(
+                f"Invalid ASO JSON for session {session_id}: {exc.msg}"
+            ) from exc
+        except OSError as exc:
+            raise InvalidASOError(
+                f"Unable to read ASO for session {session_id}: {exc.strerror or exc}"
+            ) from exc
+
+        try:
+            return AgentStateObject.model_validate(data)
+        except ValidationError as exc:
+            raise InvalidASOError(
+                f"Invalid ASO payload for session {session_id}: schema validation failed"
+            ) from exc
 
     def list_sessions(self) -> List[str]:
         return [p.name.replace(".aso.json", "") for p in self.base_dir.glob("*.aso.json")]

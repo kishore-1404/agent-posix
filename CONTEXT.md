@@ -49,6 +49,9 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - TASK P023: Implemented host drift capture and validation. Freeze now refreshes tracked environment state, resume raises `HostDriftError` for fatal drift, and advisory drift is attached to `extensions["resume_advisories"]`.
 - TASK P030: Completed the async SQLite backend with `list_sessions`, `delete_aso`, `exists`, and parity tests for create/update/delete/missing-session behavior.
 - TASK P031: Added filesystem durability safeguards including parent-dir recreation, file flush plus fsync, directory fsync after replace, and per-session in-process locking.
+- TASK P032: Added corruption and recovery coverage for storage backends. Filesystem and SQLite reads now surface partial JSON and malformed payloads as deterministic `InvalidASOError`s, and tests cover partial JSON, unreadable filesystem payloads, unexpected payload shape, and checksum mismatch behavior.
+- TASK P033: Added storage backend selection guidance in `agentposix/docs/concepts/storage-backends.md` and linked it from `agentposix/README.md`.
+- TASK P040: Hardened the raw Python checkpoint decorator. Idempotency keys now include positional and keyword arguments, recorded tool arguments are JSON-safe, JSON results replay from stored side-effect entries, and non-JSON result replay raises `SideEffectReplayError` without re-executing side effects. Added raw adapter docs in `agentposix/docs/adapters/raw-python.md`.
 
 ## In Progress
 - None.
@@ -57,6 +60,7 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - `python3 -m venv` and activation emit `pyenv: cannot rehash ... shims isn't writable`, but environment creation and package installation still succeed.
 - `python -m build` without `--no-isolation` still cannot run in this environment unless network access is available, because the isolated build bootstrap tries to resolve build requirements from package indexes.
 - In the Codex sandbox, `aiosqlite.connect()` hangs even in a minimal script. SQLite tests pass outside the sandbox under supported Python `3.12.9`, so this currently appears to be an execution-environment limitation rather than a repository bug.
+- `./.venv/bin/ruff check src tests/unit/test_storage` currently reports pre-existing unused imports in `src/agentposix/adapters/langgraph/adapter.py` and `src/agentposix/models/environment.py`. The files touched for `P032` and `P040` pass Ruff.
 
 ## Decisions
 - `CONTEXT.md` is the canonical handoff file for ongoing work.
@@ -72,8 +76,10 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - Storage backends should treat the passed-in ASO as immutable input during writes; persistence-only checksum fixes happen on a local copy.
 - Host drift policy is now explicit: `cwd`, Python version, platform, and tracked file checksums are fatal; tracked env var and git hash drift are advisory.
 - Filesystem persistence guarantees are now explicitly single-process and per-session; cross-process coordination is still not provided.
+- Storage corruption handling is fail-fast and operator-driven: invalid JSON and malformed payloads raise `InvalidASOError`, while checksum mismatches remain integrity errors raised by checksum verification/resume.
+- Raw Python adapter idempotency includes positional arguments and keyword arguments. Non-JSON side-effect results are not replayed as fake values; duplicate calls raise `SideEffectReplayError` after confirming the side effect has already completed.
 
 ## Next Steps
-1. Execute `P032` to add corruption and recovery tests for persistence failures.
-2. Execute `P033` to document backend selection tradeoffs.
-3. Continue through adapter and CLI hardening after storage reliability improves.
+1. Execute `P041` to add realistic LangGraph checkpoint round-trip tests.
+2. Execute `P042` to document the adapter extension contract before CLI hardening.
+3. Continue with `P050`-`P052` CLI lifecycle command coverage after adapter hardening.

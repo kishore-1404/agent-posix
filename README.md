@@ -109,6 +109,8 @@ debugging/power-user command, not a friendly ASO authoring wizard.
 
 For durability, concurrency, and recovery details, see
 [`agentposix/docs/concepts/storage-backends.md`](agentposix/docs/concepts/storage-backends.md).
+Architecture details are documented in
+[`agentposix/docs/concepts/architecture.md`](agentposix/docs/concepts/architecture.md).
 
 ## Adapter Docs
 

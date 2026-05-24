@@ -108,6 +108,8 @@ debugging/power-user command, not a friendly ASO authoring wizard.
 
 For durability, concurrency, and recovery details, see
 [`docs/concepts/storage-backends.md`](docs/concepts/storage-backends.md).
+Architecture details are documented in
+[`docs/concepts/architecture.md`](docs/concepts/architecture.md).
 
 ## Adapter Docs
 

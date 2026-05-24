@@ -367,7 +367,7 @@ The project is considered production-ready for open-source adoption only when al
   - Added problem statement, provided capabilities, explicit non-goals, alpha maturity note, installation instructions, optional extras, quickstart code, CLI examples, storage guidance, adapter docs, development checks, and project status links.
   - Verified package metadata still builds with `./.venv/bin/python -m build --no-isolation`.
 
-#### TASK P071 — Add architecture docs
+#### TASK P071 — Add architecture docs [DONE 2026-05-25]
 - **Goal:** Explain the system beyond code.
 - **Requirements:**
   - ASO structure
@@ -375,6 +375,9 @@ The project is considered production-ready for open-source adoption only when al
   - backend model
   - adapter model
   - idempotency semantics
+- **Completion notes:**
+  - Added `agentposix/docs/concepts/architecture.md` covering ASO structure, freeze/resume lifecycle, storage backend contract, adapter model, and idempotency semantics.
+  - Linked the architecture guide from both READMEs.
 
 #### TASK P072 — Add API reference docs
 - **Goal:** Support external integration.

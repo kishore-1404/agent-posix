@@ -1,3 +1,4 @@
+import json
 import os
 import sys
 
@@ -37,6 +38,13 @@ def make_checkpointed_aso(session_id: str) -> AgentStateObject:
     )
 
 
+def make_initializing_aso(session_id: str) -> AgentStateObject:
+    aso = make_checkpointed_aso(session_id)
+    aso.status = ASOStatus.INITIALIZING
+    aso.frozen_at = None
+    return aso
+
+
 def test_resume_cli_prints_status_timestamps_and_checksum(tmp_path):
     backend = FilesystemBackend(str(tmp_path))
     backend.write_aso(make_checkpointed_aso("session-1"))
@@ -60,3 +68,50 @@ def test_resume_cli_reports_missing_session(tmp_path):
     assert result.exit_code == 1
     assert "Error resuming ASO:" in result.output
     assert "No ASO found for session missing" in result.output
+
+
+def test_freeze_cli_persists_aso_from_json_input(tmp_path):
+    input_path = tmp_path / "input.aso.json"
+    storage_path = tmp_path / "storage"
+    aso = make_initializing_aso("session-1")
+    input_path.write_text(
+        json.dumps(aso.model_dump(mode="json")),
+        encoding="utf-8",
+    )
+    runner = CliRunner()
+
+    result = runner.invoke(
+        app,
+        [
+            "freeze",
+            "--input",
+            str(input_path),
+            "--path",
+            str(storage_path),
+            "--summary",
+            "manual checkpoint",
+        ],
+    )
+
+    assert result.exit_code == 0
+    assert "Frozen ASO: session-1" in result.output
+    assert "Status: CHECKPOINTED" in result.output
+    assert "Frozen At:" in result.output
+    assert "Checksum:" in result.output
+    assert "Summary: manual checkpoint" in result.output
+
+    stored = FilesystemBackend(str(storage_path)).read_aso("session-1")
+    assert stored.status == ASOStatus.CHECKPOINTED
+    assert stored.human_summary == "manual checkpoint"
+    assert stored.checksum
+
+
+def test_freeze_cli_reports_invalid_json_input(tmp_path):
+    input_path = tmp_path / "input.aso.json"
+    input_path.write_text("{", encoding="utf-8")
+    runner = CliRunner()
+
+    result = runner.invoke(app, ["freeze", "--input", str(input_path)])
+
+    assert result.exit_code == 1
+    assert "Error freezing ASO:" in result.output

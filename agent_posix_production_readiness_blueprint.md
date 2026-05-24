@@ -275,11 +275,18 @@ The project is considered production-ready for open-source adoption only when al
   - Added Click runner tests for successful resume output and missing-session error behavior.
   - Verified with `./.venv/bin/pytest tests/unit/test_cli/test_main.py -q` and Ruff on changed CLI files.
 
-#### TASK P051 — Implement `freeze` CLI command
+#### TASK P051 — Implement `freeze` CLI command [DONE 2026-05-25]
 - **Goal:** Support manual checkpoint creation.
 - **Requirements:**
   - Decide the CLI input shape for creating or updating ASOs.
   - Document whether this is primarily a debugging command.
+- **Completion notes:**
+  - Added `agentposix freeze --input ASO_JSON --path PATH [--summary TEXT]`.
+  - The command accepts a complete ASO JSON payload as input, validates it through the public Pydantic model, and runs the core `freeze()` protocol before persisting through the filesystem backend.
+  - The command is documented in help text as debugging-oriented rather than a high-level ASO authoring interface.
+  - Successful output includes session id, status, frozen timestamp, checksum, and optional summary.
+  - Added Click runner coverage for successful manual checkpoint creation and invalid JSON input.
+  - Verified with `./.venv/bin/pytest tests/unit/test_cli/test_main.py -q` and Ruff on changed CLI files.
 
 #### TASK P052 — Add CLI tests
 - **Goal:** Validate the installed console script behavior.

@@ -1,0 +1,7 @@
+# Agent POSIX Root Gitignore
+
+# Local Agent Workspace Files
+.agents/
+
+# Editor / Codex Files
+.codex

@@ -72,6 +72,9 @@ Turn the completed prototype into an adoptable open-source release using a dedic
 - TASK P090: Defined release criteria for `v0.1.0-alpha` in `agentposix/docs/release/alpha-criteria.md`.
 - TASK P091: Created and executed an automated local smoke test script (`agentposix/scripts/smoke_test.sh`) verifying package wheel build, clean venv installation, import, quickstart logic, and CLI entrypoint.
 - TASK P092: Published v0.1.0-alpha checklist and capability matrix in `agentposix/docs/release/v0.1.0-alpha-checklist.md`.
+- Redesigned and rewrote root and package `README.md` files with visual Mermaid diagrams, capability comparison tables, detailed use-cases, and refined quickstarts to appeal to developer channels.
+- Added `agentposix/examples/interactive_demo.py` showcasing the full freeze/resume lifecycle and decorator-based side-effect replay.
+- Generated launch copy templates (`launch_copy.md`) for Hacker News, Reddit, and Twitter/X.
 
 ## In Progress
 - None.
